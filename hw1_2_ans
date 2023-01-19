@@ -1,0 +1,12 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+a = 0.572917
+theta = np.linspace(0,2.412,100)
+
+x = a * (theta - np.sin(theta))
+y = -a * (1 - np.cos(theta)) + 1
+
+plt.figure()
+plt.plot(x,y)
+plt.show()

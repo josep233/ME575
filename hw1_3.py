@@ -150,39 +150,41 @@ def node2idx(node, DOF):
 
 #=======================================================================================================
 
-bars = np.ones([10,1]) * 10
-
+#define f
 def f(x):
     return truss(x)[0]
 
+#define first inequality: stresses
 def g1(x,i):
     stressa = 25 * 10 **3
     stressb = 75 * 10 **3
     if i != 8:
         if truss(x)[1][i] > 0:
-            con1 =  truss(x)[1][i] + stressa
+            con1 =  stressa - truss(x)[1][i]
         else:
-            con1 = -truss(x)[1][i] + stressa
+            con1 = stressa + truss(x)[1][i]
     else:
-        if truss(x)[1][i] > 0:
-            con1 = truss(x)[1][i] + stressb
+        if truss(x)[1][i] >= 0:
+            con1 = stressb - truss(x)[1][i]
         else:
-            con1 = -truss(x)[1][i] + stressb
+            con1 = stressb + truss(x)[1][i]
     return con1
 
+#define second inequality: minimum CSA
 def g2(x,i):
     con2 = x[i] - .1
     return con2
 
-A0 = np.ones([10,1]) * 20
+#initial guess
+A0 = np.ones([10,1]) * 10
 
+#create constraints dict
 cons = []
 for i in range(0,len(A0)):
     cons.append({'type':'ineq','fun':g1,'args':(i,)})
 for i in range(0,len(A0)):
     cons.append({'type':'ineq','fun':g2,'args':(i,)})
 
-# print(cons)
-
+#perform optimization
 ans = minimize(f,A0,constraints = cons)
 print(ans)

@@ -156,16 +156,18 @@ def f(x):
     return truss(x)[0]
 
 def g1(x,i):
+    stressa = 25 * 10 **3
+    stressb = 75 * 10 **3
     if i != 8:
         if truss(x)[1][i] > 0:
-            con1 = 25 * 10 **3 - truss(x)[1][i]
+            con1 =  truss(x)[1][i] + stressa
         else:
-            con1 = -25 * 10 **3 + truss(x)[1][i]
+            con1 = -truss(x)[1][i] + stressa
     else:
         if truss(x)[1][i] > 0:
-            con1 = 75 * 10 **3 - truss(x)[1][i]
+            con1 = truss(x)[1][i] + stressb
         else:
-            con1 = -75 * 10 **3 + truss(x)[1][i]
+            con1 = -truss(x)[1][i] + stressb
     return con1
 
 def g2(x,i):

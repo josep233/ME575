@@ -185,6 +185,26 @@ for i in range(0,len(A0)):
 for i in range(0,len(A0)):
     cons.append({'type':'ineq','fun':g2,'args':(i,)})
 
+#calllback function creation for tracking convergence
+Nfeval = 1
+fe = []
+mass = []
+def callb(A0):
+    global Nfeval
+    print(Nfeval,A0[0],f(A0))
+    fe.append(Nfeval)
+    mass.append(f(A0))
+    Nfeval += 1
+
 #perform optimization
-ans = minimize(f,A0,constraints = cons)
+ans = minimize(f,A0,constraints = cons,callback=callb,options={'verbose':1})
 print(ans)
+
+#plotting
+plt.figure()
+plt.plot(fe,mass)
+plt.xlabel('Objective Function Evaluations')
+plt.ylabel('Mass of Truss')
+plt.title('Convergence')
+plt.xticks(ticks=fe,labels=fe)
+plt.show()

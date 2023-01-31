@@ -22,8 +22,11 @@ def fun(x1,x2,beta):
 x1 = np.linspace(-10,10,100)
 x2 = np.linspace(-10,10,100)
 beta = 3/2
-x0 = np.array([5,-5])
-tau = 0.001
+alpha0 = 0.5
+grad0 = np.array([1,1])
+x0 = 5
+y0 = -5
+tau = 0.01
 fun = fun(x1,x2,beta)
 
 
@@ -32,21 +35,32 @@ plt.contour(x1,x2,np.transpose(fun),50)
 plt.show()
 
 def linesearch(pk,alpha0):
+    #dependent on steepest descent
     alphak = 0
     return alphak
 
-def steepest_descent(x0,tau):
-    xs = 0
-    return xs,fun(xs)
+def steepest_descent(x0,tau,alpha0,grad0):
+    k = 0
+    grad = np.array(np.gradient(fun)[0][x0,y0],np.gradient(fun)[1][x0,y0])
+    while np.linalg.norm(grad) > tau:
+        pk = - grad / np.linalg.norm(grad)
+        p0 = - grad0 / np.linalg.norm(grad0)
+        alpha = alpha0 * np.dot(grad,pk) / np.dot(grad0,p0)
+        alpha = linesearch(pk,alpha)
+        return xs,fun(xs)
 
 def pinpoint(alphalow,alphahigh,phi0,philow,phihigh,phip0,phiplow,phiphigh,mu1,mu2):
+    #dependent on interpolation
     alphas = 0
     return alphas
 
 def bracketing(alpha0,phi0,phip0,mu1,mu2,sigma):
-    alphas = 0
-    return alphas
-
-def backtracking(alpha0,mu1,ro):
+    alpha1 = 0
+    alpha2 = alpha0
+    phi1 = phi0
+    phip1 = phip0
+    first = True
+    while first == True:
+        phi2 = phi(alpha2)
     alphas = 0
     return alphas

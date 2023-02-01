@@ -6,7 +6,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
-import time 
+import numdifftools as nd
 
 # alpha0 = 0.5
 # x0 = np.array([-2.5,5])
@@ -23,19 +23,23 @@ def f(x):
 #     return (1-x[0])**2 + 100 * (x[1] - x[0]**2)**2
 # def f(x):
 #     return (1-x[0])**2 + (1-x[1])**2 + 0.5 * (2*x[1]-x[0]**2)**2
+# def fp(x):
+#     delta = 0.1
+#     num_terms = len(x)
+#     xs1 = x.copy()
+#     xs2 = x.copy()
+#     comp = np.zeros([num_terms])
+#     for i in range(0,num_terms):
+#         xs1[i] = xs1[i] + delta
+#         print(xs1)
+#         xs2[i] = xs2[i] - delta
+#         comp[i] = (f(xs1) - f(xs2)) / (2*delta)
+#         xs1[i] = xs1[i] - delta
+#         xs2[i] = xs2[i] + delta
+#     return comp
 def fp(x):
-    delta = 0.000001
-    num_terms = len(x)
-    xs1 = x.copy()
-    xs2 = x.copy()
-    comp = np.zeros([num_terms])
-    for i in range(0,num_terms):
-        xs1[i] = xs1[i] + delta
-        xs2[i] = xs2[i] - delta
-        comp[i] = (f(xs1) - f(xs2)) / (2*delta)
-        xs1[i] = xs1[i] - delta
-        xs2[i] = xs2[i] + delta
-    return comp
+    grad = nd.Gradient(f)(x)
+    return grad
 #==================================================================================================================================================================================================================================================================================
 def phi(x,alpha,p):
     return f(x + alpha * p)
@@ -94,17 +98,18 @@ def bracketing(alpha0,phi0,phip0,mu1,mu2,sigma,p):
             alpha2 = sigma * alpha2
         first = False
 #==================================================================================================================================================================================================================================================================================
-def steepest(tau):
+def steepest(tau,x0):
     k = 0
-    x = x0
-    xk = x0
+    x = x0.copy()
+    xk = x0.copy()
     fk = f(xk)
     nfp = 1
     while nfp > tau:
-        p = -fp(x0) / np.linalg.norm(fp(x0))
+        p = -fp(x) / np.linalg.norm(fp(x))
         alpha0 = alpha_estimate(p,x)
         alpha = bracketing(alpha0,phi0,phip0,mu1,mu2,sigma,p)
-        x = x + alpha * p
+        x = x0 + alpha * p
+        x0 = x
         xk = np.stack((xk,x),axis=0)
         fk = np.append(fk,f(x))
         k = k + 1
@@ -116,17 +121,18 @@ def alpha_estimate(p,x):
     return alpha
 #==================================================================================================================================================================================================================================================================================
 alpha0 = 0.3
-x0 = np.array([-2.5,5])
-p = -fp(x0) / np.linalg.norm(fp(x0))
-p0 = np.array([0,-1])
-mu1 = 0.1
-mu2 = 0.2
+x0 = np.array([-7.5,2.5])
+p0 = np.array([0,1])
+mu1 = 0.8
+mu2 = 0.9
 sigma = 2
 phi0 = phi(x0,0,p0)
 phip0 = phip(x0,0,p0)
 tau = 1E-6
-alpha = bracketing(alpha0,phi0,phip0,mu1,mu2,sigma,p0)
-xnew = x0 + alpha * p0
+
+xk,fk = steepest(tau,x0)
+
+print(xk,fk)
 
 def fun(x1,x2):
     fun = np.zeros([len(x1),len(x2)])
@@ -139,5 +145,5 @@ x2 = np.linspace(-10,10,100)
 plt.figure()
 plt.contour(x1,x2,np.transpose(fun(x1,x2)),50)
 plt.plot(x0[0],x0[1],marker="o")
-plt.plot(p0*x0)
+plt.plot(xk[1][0],xk[1][1],marker="o")
 plt.show()

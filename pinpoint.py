@@ -39,30 +39,30 @@ def pinpoint(alphalow,alphahigh,x,p,phi0,phip0,mu1,mu2,philow):
             alphalow = alpha_p
         k = k + 1
 
-x = np.array([3.5,5])
-p = -fp(x) / np.linalg.norm(fp(x))
-alphalow = 0
-alphahigh = 10
-phi0 = phi(x,0,p)
-phip0 = phip(x,0,p)
-mu1 = 0.1
-mu2 = 0.9
-philow = phi(x,alphalow,p)
+# x = np.array([-2.5,5])
+# p = -fp(x) / np.linalg.norm(fp(x))
+# alphalow = 4
+# alphahigh = 10
+# phi0 = phi(x,0,p)
+# phip0 = phip(x,0,p)
+# mu1 = 0.1
+# mu2 = 0.9
+# philow = phi(x,alphalow,p)
 
-alpha_p, g = pinpoint(alphalow,alphahigh,x,p,phi0,phip0,mu1,mu2,philow)
+# alpha_p, g = pinpoint(alphalow,alphahigh,x,p,phi0,phip0,mu1,mu2,philow)
 
-new_point = phi(x,alpha_p,p)
-print(alpha_p)
+# new_point = phi(x,alpha_p,p)
+# print(alpha_p)
 
-plt.figure()
-alpha = np.linspace(0,10,100)
-y = np.zeros([len(alpha),1])
-plt.plot(alpha_p,new_point,marker="o")
-for i in range(0,len(alpha)):
-    y[i] = phi(x,alpha[i],p)
-for i in range(0,len(g)):
-    plt.plot(g[i],phi(x,g[i],p),marker="o")
-print(len(g))
-plt.plot(alpha,y)
-plt.show()
+# plt.figure()
+# alpha = np.linspace(0,10,100)
+# y = np.zeros([len(alpha),1])
+# plt.plot(alpha_p,new_point,marker="o")
+# for i in range(0,len(alpha)):
+#     y[i] = phi(x,alpha[i],p)
+# for i in range(0,len(g)):
+#     plt.plot(g[i],phi(x,g[i],p),marker="o")
+# print(len(g))
+# plt.plot(alpha,y)
+# plt.show()
 

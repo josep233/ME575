@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 
 
 def f(x):
-    b = 0
+    b = 0.5
     return x[0]**2 + x[1]**2 + b * x[0] * x[1]
 
 def fp(x):
@@ -30,8 +30,8 @@ def interpolate(x,alpha1,alpha2,p):
 
 # x = np.array([3.5,5])
 # p = - fp(x) / np.linalg.norm(fp(x))
-# alpha1 = 6.103277807866850
-# alpha2 = 6.103277807866852
+# alpha1 = 0
+# alpha2 = 10
 # alpha_s = interpolate(x,alpha1,alpha2,p)
 # new_point = phi(x,alpha_s,p)
 # print(alpha_s)

@@ -1,29 +1,12 @@
 import numpy as np
 from matplotlib import pyplot as plt
-
-
-def f(x):
-    b = 0.5
-    return x[0]**2 + x[1]**2 + b * x[0] * x[1]
-
-def fp(x):
-    b = 0
-    grad1 = 2 * x[0] + b * x[1]
-    grad2 = 2 * x[1] + b * x[0]
-    grad = np.array([grad1,grad2])
-    return grad
-
-def phi(x,alpha,p):
-    return f(x + alpha * p)
-
-def phip(x,alpha,p):
-    return np.dot(fp(x + alpha * p),p)
+import funs as f
 
 def interpolate(x,alpha1,alpha2,p):
     if abs(alpha1 - alpha2) > 1E-10:
-        beta1 = phip(x,alpha1,p) + phip(x,alpha2,p) - 3 * ((phi(x,alpha1,p) - phi(x,alpha2,p))/(alpha1 - alpha2))
-        beta2 = np.sign(alpha2 - alpha1) * np.sqrt(beta1**2 - phip(x,alpha1,p) * phip(x,alpha2,p))
-        alpha_s = alpha2 - (alpha2 - alpha1) * ((phip(x,alpha2,p) + beta2 - beta1)/(phip(x,alpha2,p) - phip(x,alpha1,p) + 2 * beta2))
+        beta1 = f.phip(x,alpha1,p) + f.phip(x,alpha2,p) - 3 * ((f.phi(x,alpha1,p) - f.phi(x,alpha2,p))/(alpha1 - alpha2))
+        beta2 = np.sign(alpha2 - alpha1) * np.sqrt(beta1**2 - f.phip(x,alpha1,p) * f.phip(x,alpha2,p))
+        alpha_s = alpha2 - (alpha2 - alpha1) * ((f.phip(x,alpha2,p) + beta2 - beta1)/(f.phip(x,alpha2,p) - f.phip(x,alpha1,p) + 2 * beta2))
     else:
         alpha_s = (alpha1 + alpha2) / 2
     return alpha_s

@@ -1,23 +1,8 @@
 import numpy as np
 import interpolate as I
 from matplotlib import pyplot as plt
-
-def f(x):
-    b = 0
-    return x[0]**2 + x[1]**2 + b * x[0] * x[1]
-
-def fp(x):
-    b = 0
-    grad1 = 2 * x[0] + b * x[1]
-    grad2 = 2 * x[1] + b * x[0]
-    grad = np.array([grad1,grad2])
-    return grad
-
-def phi(x,alpha,p):
-    return f(x + alpha * p)
-
-def phip(x,alpha,p):
-    return np.dot(fp(x + alpha * p),p)
+import numdifftools as nd
+import funs as f
 
 def pinpoint(alphalow,alphahigh,x,p,phi0,phip0,mu1,mu2,philow):
     k = 0
@@ -25,11 +10,11 @@ def pinpoint(alphalow,alphahigh,x,p,phi0,phip0,mu1,mu2,philow):
     while True:
         alpha_p = I.interpolate(x,alphalow,alphahigh,p)
 
-        phi_p = phi(x,alpha_p,p)
+        phi_p = f.phi(x,alpha_p,p)
         if (phi_p > (phi0 + mu1 * alpha_p * phip0)) or (phi_p > philow):
             alphahigh = alpha_p
         else:
-            phip_p = phip(x,alpha_p,p)
+            phip_p = f.phip(x,alpha_p,p)
             if abs(phip_p) <= -mu2 * phip0:
                 alpha_s = alpha_p
                 g = np.append(g,alpha_s)
@@ -39,9 +24,9 @@ def pinpoint(alphalow,alphahigh,x,p,phi0,phip0,mu1,mu2,philow):
             alphalow = alpha_p
         k = k + 1
 
-# x = np.array([-2.5,5])
+# x = np.array([-5,5])
 # p = -fp(x) / np.linalg.norm(fp(x))
-# alphalow = 4
+# alphalow = 0
 # alphahigh = 10
 # phi0 = phi(x,0,p)
 # phip0 = phip(x,0,p)

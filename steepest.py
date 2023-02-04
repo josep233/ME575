@@ -8,7 +8,7 @@ import funs as f
 
 def steepest(x_current,tau,alpha_past,phi0,phip0,mu1,mu2,sigma):
     k = 0
-    normf = 1000
+    normf = 1
     x_past = x_current
     ggg = x_past
     while normf > tau:
@@ -23,24 +23,24 @@ def steepest(x_current,tau,alpha_past,phi0,phip0,mu1,mu2,sigma):
         k = k + 1
         print(k)
     ggg = np.reshape(ggg,(k+1,2))
-    return x_current, g, ggg
+    return x_current, ggg
 
 def alpha_estimate(x_current,x_past,alpha_past,p_current,p_past):
     alpha_current = alpha_past * np.dot(f.fp(x_past),p_past) / np.dot(f.fp(x_current),p_current)
     return alpha_current
 
-x_current = np.array([-1,-12])
+x_current = np.array([-1,-0])
 p0 = -f.fp(x_current) / np.linalg.norm(f.fp(x_current))
-tau = 3
+tau = .3
 alpha_past = 0.1
 phi0 = f.phi(x_current,0,p0)
 phip0 = f.phip(x_current,0,p0)
 mu1 = 0.1
-mu2 = 0.2
+mu2 = 0.9
 sigma = 2
 
 
-x_last, g, ggg = steepest(x_current,tau,alpha_past,phi0,phip0,mu1,mu2,sigma)
+x_last, ggg = steepest(x_current,tau,alpha_past,phi0,phip0,mu1,mu2,sigma)
 # ggg = np.array([[0,0],[0,0]])
 # print(ggg)
 

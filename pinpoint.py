@@ -8,28 +8,22 @@ def pinpoint(alphalow,alphahigh,x,p,phi0,phip0,mu1,mu2,philow):
     k = 0
     g = alphalow
     while True:
-        # if k < 100000:
-        if ((f.phip(x,alphalow,p) + f.phip(x,alphahigh,p) - 3 * ((f.phi(x,alphalow,p) - f.phi(x,alphahigh,p))/(alphalow - alphahigh)))**2 - f.phip(x,alphalow,p) * f.phip(x,alphahigh,p) > 0) and (abs(alphalow - alphahigh) < 1E-6):
-            # print('a')
+        if k < 100000000000:
+        # if ((f.phip(x,alphalow,p) + f.phip(x,alphahigh,p) - 3 * ((f.phi(x,alphalow,p) - f.phi(x,alphahigh,p))/(alphalow - alphahigh)))**2 - f.phip(x,alphalow,p) * f.phip(x,alphahigh,p) > 0) and (abs(alphalow - alphahigh) < 1E-6):
             alpha_p = I.interpolate(x,alphalow,alphahigh,p)
         else:
-            # print('b')
             alpha_p = (alphalow + alphahigh) / 2
 
         phi_p = f.phi(x,alpha_p,p)
         if (phi_p > (phi0 + mu1 * alpha_p * phip0)) or (phi_p > philow):
-            # print('c')
             alphahigh = alpha_p
         else:
-            # print('d')
             phip_p = f.phip(x,alpha_p,p)
             if abs(phip_p) <= -mu2 * phip0:
-                # print('e')
                 alpha_s = alpha_p
                 g = np.append(g,alpha_s)
                 return alpha_p, g
             elif phip_p * (alphahigh - alphalow) >= 0:
-                # print('f')
                 alphahigh = alphalow
             alphalow = alpha_p
         k = k + 1

@@ -29,7 +29,7 @@ def alpha_estimate(x_current,x_past,alpha_past,p_current,p_past):
     alpha_current = alpha_past * np.dot(f.fp(x_past),p_past) / np.dot(f.fp(x_current),p_current)
     return alpha_current
 
-x_current = np.array([-1,-0])
+x_current = np.array([3,-1])
 p0 = -f.fp(x_current) / np.linalg.norm(f.fp(x_current))
 tau = .3
 alpha_past = 0.1
@@ -55,5 +55,5 @@ x2 = np.linspace(-10,10,100)
 plt.figure()
 plt.contour(x1,x2,np.transpose(fun(x1,x2)),50)
 for i in range(0,len(ggg)-1):
-    plt.plot(ggg[i,0],ggg[i,1],"ro-")
+    plt.plot(ggg[i,0],ggg[i,1],marker=".",markersize=1,color='red')
 plt.show()

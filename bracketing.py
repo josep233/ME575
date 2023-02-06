@@ -16,19 +16,15 @@ def bracketing(x,alphainit,phi0,phip0,p,mu1,mu2,sigma):
         phi2 = f.phi(x,alpha2,p)
         phip2 = f.phip(x,alpha2,p)
         if (phi2 > phi0 + (mu1 * alpha2 * phip0)) or ((first != True) and (phi2 > phi1)):
-            # print('1')
-            # print(alpha1,alpha2,x,p,phi0,phip0,mu1,mu2,phi1)
             alpha_s, g = P.pinpoint(alpha1,alpha2,x,p,phi0,phip0,mu1,mu2,phi1)
             gg = np.append(gg,alpha_s)
             return alpha_s, gg
         phip2 = f.phip(x,alpha2,p)
         if abs(phip2) <= -mu2 * phip0:
-            # print('2')
             alpha_s = alpha2
             gg = np.append(gg,alpha_s)
             return alpha_s, gg
         elif phip2 >= 0:
-            # print('3')
             alpha_s, g = P.pinpoint(alpha2,alpha1,x,p,phi0,phip0,mu1,mu2,phi2)
             gg = np.append(gg,alpha_s)
             return alpha_s, gg

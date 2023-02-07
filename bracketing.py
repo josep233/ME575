@@ -19,7 +19,6 @@ def bracketing(x,alphainit,phi0,phip0,p,mu1,mu2,sigma):
             alpha_s, g = P.pinpoint(alpha1,alpha2,x,p,phi0,phip0,mu1,mu2,phi1)
             gg = np.append(gg,alpha_s)
             return alpha_s, gg
-        phip2 = f.phip(x,alpha2,p)
         if abs(phip2) <= -mu2 * phip0:
             alpha_s = alpha2
             gg = np.append(gg,alpha_s)
@@ -33,14 +32,14 @@ def bracketing(x,alphainit,phi0,phip0,p,mu1,mu2,sigma):
             alpha2 = sigma * alpha2
         first = False
 
-# x = np.array([-7.5,8])
+# x = np.array([10,1])
 # p = -f.fp(x) / np.linalg.norm(f.fp(x))
 # phi0 = f.phi(x,0,p)
 # phip0 = f.phip(x,0,p)
-# mu1 = 0.1
-# mu2 = 0.2
+# mu1 = 0.001
+# mu2 = 0.01
 # sigma = 2
-# alphainit = 0.1
+# alphainit = 1
 
 # alpha_p, g = bracketing(x,alphainit,phi0,phip0,p,mu1,mu2,sigma)
 

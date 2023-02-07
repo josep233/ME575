@@ -31,7 +31,7 @@ def alpha_estimate(x_current,x_past,alpha_past,p_current,p_past):
 
 x_current = np.array([3,-1])
 p0 = -f.fp(x_current) / np.linalg.norm(f.fp(x_current))
-tau = .3
+tau = 0.01
 alpha_past = 0.1
 phi0 = f.phi(x_current,0,p0)
 phip0 = f.phip(x_current,0,p0)
@@ -55,5 +55,5 @@ x2 = np.linspace(-10,10,100)
 plt.figure()
 plt.contour(x1,x2,np.transpose(fun(x1,x2)),50)
 for i in range(0,len(ggg)-1):
-    plt.plot(ggg[i,0],ggg[i,1],marker=".",markersize=1,color='red')
+    plt.plot(ggg[i,0],ggg[i,1],marker=".",markersize=5,color='red')
 plt.show()

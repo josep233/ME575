@@ -8,7 +8,7 @@ def pinpoint(alphalow,alphahigh,x,p,phi0,phip0,mu1,mu2,philow):
     k = 0
     g = alphalow
     while True:
-        if k < 100000000:
+        if k < 100:
         # if ((f.phip(x,alphalow,p) + f.phip(x,alphahigh,p) - 3 * ((f.phi(x,alphalow,p) - f.phi(x,alphahigh,p))/(alphalow - alphahigh)))**2 - f.phip(x,alphalow,p) * f.phip(x,alphahigh,p) > 0) and (abs(alphalow - alphahigh) < 1E-6):
             alpha_p = I.interpolate(x,alphalow,alphahigh,p)
         else:

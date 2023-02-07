@@ -10,11 +10,10 @@ def BFGS(tau,x,phi0,phip0,mu1,mu2):
     k = 0
     x0 = x.copy()
     ggg = x.copy()
-    alphainit = 1
+    alpha_p = 1
     normf = 1
     reset = False
-    z = 0
-    while normf > tau and z != 1:
+    while normf > tau:
         if k == 0 or reset == True:
             V0 = np.dot((1 / np.linalg.norm(f.fp(x))),np.eye(len(f.fp(x))))
             V = V0
@@ -25,23 +24,23 @@ def BFGS(tau,x,phi0,phip0,mu1,mu2):
             sigma = 1 / (np.dot(np.transpose(s),y))
             V = (np.eye(len(f.fp(x))) - sigma * np.matmul(s,np.transpose(y))) * V0 * (np.eye(len(f.fp(x))) - sigma * y * np.transpose(s)) + sigma * s * np.transpose(s)
         p = -V @ f.fp(x)
-        if abs(np.dot(f.fp(x),p)) > 1E-1:
+        if abs(f.fp(x) @ p) > 10E5:
             reset = True
-        alpha_p, g = B.bracketing(x,alphainit,phi0,phip0,p,mu1,mu2,sigma)
+        alpha_p, g = B.bracketing(x,alpha_p,phi0,phip0,p,mu1,mu2,sigma)
         x0 = x
         x = x0 + alpha_p * p
         ggg = np.append(ggg,x)
         normf = np.linalg.norm(f.fp(x))
         k = k + 1
         print(k)
-        if k > 100:
-            z = 1
+        if k > 1000:
+            break
     ggg = np.reshape(ggg,(k+1,2))
     return x,ggg
 
-x = np.array([3,-1])
+x = np.array([1,2.5])
 p0 = -f.fp(x) / np.linalg.norm(f.fp(x))
-tau = 0.3
+tau = 1E-6
 phi0 = f.phi(x,0,p0)
 phip0 = f.phip(x,0,p0)
 mu1 = 0.1
@@ -56,10 +55,10 @@ def fun(x1,x2):
         for j in range(len(x2)):
             fun[i,j] = f.f([x1[i],x2[j]])
     return fun
-x1 = np.linspace(-10,10,100)
-x2 = np.linspace(-10,10,100)
+x1 = np.linspace(-2,2.5,100)
+x2 = np.linspace(-1,3,100)
 plt.figure()
 plt.contour(x1,x2,np.transpose(fun(x1,x2)),50)
 for i in range(0,len(ggg)-1):
-    plt.plot(ggg[i,0],ggg[i,1],color='red',markersize=1,marker=".")
+    plt.plot(ggg[i,0],ggg[i,1],color='red',markersize=5,marker=".")
 plt.show()

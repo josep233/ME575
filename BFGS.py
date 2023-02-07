@@ -24,27 +24,29 @@ def BFGS(tau,x,phi0,phip0,mu1,mu2):
             sigma = 1 / (np.dot(np.transpose(s),y))
             V = (np.eye(len(f.fp(x))) - sigma * np.matmul(s,np.transpose(y))) * V0 * (np.eye(len(f.fp(x))) - sigma * y * np.transpose(s)) + sigma * s * np.transpose(s)
         p = -V @ f.fp(x)
-        if abs(f.fp(x) @ p) > 10E5:
+        
+        if abs(f.fp(x) @ p) > 3:
             reset = True
         alpha_p, g = B.bracketing(x,alpha_p,phi0,phip0,p,mu1,mu2,sigma)
         x0 = x
         x = x0 + alpha_p * p
+        print(x,normf)
         ggg = np.append(ggg,x)
         normf = np.linalg.norm(f.fp(x))
         k = k + 1
         print(k)
-        if k > 1000:
+        if k > 15:
             break
     ggg = np.reshape(ggg,(k+1,2))
     return x,ggg
 
-x = np.array([1,2.5])
+x = np.array([-.5,-2])
 p0 = -f.fp(x) / np.linalg.norm(f.fp(x))
-tau = 1E-6
+tau = 1E-5
 phi0 = f.phi(x,0,p0)
 phip0 = f.phip(x,0,p0)
-mu1 = 0.1
-mu2 = 0.2
+mu1 = 0.0001
+mu2 = 0.001
 
 
 x_last, ggg = BFGS(tau,x,phi0,phip0,mu1,mu2)

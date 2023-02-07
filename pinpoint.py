@@ -28,7 +28,7 @@ def pinpoint(alphalow,alphahigh,x,p,phi0,phip0,mu1,mu2,philow):
             alphalow = alpha_p
         k = k + 1
 
-# x = np.array([-7.5,8])
+# x = np.array([-5,7.5])
 # p = -f.fp(x) / np.linalg.norm(f.fp(x))
 # alphalow = 0
 # alphahigh = 0.1
@@ -56,4 +56,3 @@ def pinpoint(alphalow,alphahigh,x,p,phi0,phip0,mu1,mu2,philow):
 # print(len(g))
 # plt.plot(alpha,y)
 # plt.show()
-

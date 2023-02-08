@@ -7,21 +7,21 @@ import math
 def properties(stalk):
     rindG13_low_constant = 0.03
     rindG13_high_constant = 0.21
-    rindE1_avg = 0.85
+    rindE1_avg = 0.85 * 1000
     rindNu12_low = 0.2
     rindNu12_high = 0.45
     rindNu13_low = 0.009
     rindNu13_high = 0.086
     pithG13_low_constant = 0.03
     pithG13_high_constant = 0.21
-    pithE1_avg = 0.026
+    pithE1_avg = 0.026 * 1000
     pithNu12_low = 0.2
     pithNu12_high = 0.45
     pithNu13_low = 0.009
     pithNu13_high = 0.086
-    pithE3_low = 0.06
-    pithE3_high = 0.18
-    rindE3 = r.rinde3(stalk)
+    pithE3_low = 0.06 * 1000
+    pithE3_high = 0.18 * 1000
+    rindE3 = r.rinde3(stalk) * 1000
 
     pithE1=pithE2=pithE3=pithNu12=pithNu13=pithNu23=pithG12=pithG13=pithG23=rindE1=rindE2=rindNu12=rindNu13=rindNu23=rindG12=rindG13=rindG23=rindNu31=pithNu31=1
     

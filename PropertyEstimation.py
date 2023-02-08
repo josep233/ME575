@@ -35,6 +35,7 @@ def properties(stalk):
         rindNu23 = rindNu13
         rindNu31 = rindNu13 * (rindE3 / rindE1)
     pithNu12 = rindNu12
+    rindprops = (rindE1,rindE2,rindE3,rindNu12,rindNu13,rindNu23,rindG12,rindG13,rindG23,)
     while pithNu12**2 + 2*pithNu13*pithNu31 + 2*pithNu12*pithNu13*pithNu31 > 1:
         pithE3 = np.mean([pithE3_low,pithE3_high])
         pithG13 = np.mean([pithG13_low_constant,pithG13_high_constant]) * pithE3
@@ -45,7 +46,5 @@ def properties(stalk):
         pithNu13 = np.mean([pithNu13_low,pithNu13_high])
         pithNu23 = pithNu13
         pithNu31 = pithNu13 * (pithE3 / pithE1)
-    props = np.array([pithE1,pithE2,pithE3,pithNu12,pithNu13,pithNu23,pithG12,pithG13,pithG23,rindE1,rindE2,rindE3,rindNu12,rindNu13,rindNu23,rindG12,rindG13,rindG23])
-    return props
-
-print(properties(7))
+    pithprops = (pithE1,pithE2,pithE3,pithNu12,pithNu13,pithNu23,pithG12,pithG13,pithG23,)
+    return pithprops,rindprops

@@ -13,7 +13,6 @@ def steepest(x_current,tau,alpha_past,phi0,phip0,mu1,mu2,sigma):
     ggg = x_past
     while normf > tau:
         p_current = - f.fp(x_current) / np.linalg.norm(f.fp(x_current))
-        print("p_current", p_current)
         p_past = - f.fp(x_past) / np.linalg.norm(f.fp(x_past))
         alpha_current = alpha_estimate(x_current,x_past,alpha_past,p_current,p_past)
         alpha_p, g = B.bracketing(x_current,alpha_current,phi0,phip0,p_current,mu1,mu2,sigma)
@@ -23,6 +22,8 @@ def steepest(x_current,tau,alpha_past,phi0,phip0,mu1,mu2,sigma):
         ggg = np.append(ggg,x_current)
         k = k + 1
         print(k)
+        if abs(f.f(x_past) - f.f(x_current)) < 1E-3:
+            break
     ggg = np.reshape(ggg,(k+1,2))
     return x_current, ggg
 
@@ -30,7 +31,7 @@ def alpha_estimate(x_current,x_past,alpha_past,p_current,p_past):
     alpha_current = alpha_past * np.dot(f.fp(x_past),p_past) / np.dot(f.fp(x_current),p_current)
     return alpha_current
 
-x_current = np.array([-1,2])
+x_current = np.array([-0.5,-2.5])
 p0 = -f.fp(x_current) / np.linalg.norm(f.fp(x_current))
 tau = 1E-6
 alpha_past = 0.1
@@ -58,6 +59,6 @@ plt.contour(x1,x2,np.transpose(fun(x1,x2)),100)
 # for i in range(0,len(ggg)-1):
 #     # plt.plot(ggg[i,0],ggg[i,1],marker=".",markersize=5,color='red')
 #     plt.plot(ggg[i,0],ggg[i,1],"ro-")
-plt.plot(ggg[:,0],ggg[:,1],"ro-")
+plt.plot(ggg[:,0],ggg[:,1],"ro-",markersize=3)
 plt.axis('equal')
 plt.show()

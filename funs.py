@@ -1,5 +1,4 @@
 import numpy as np
-import interpolate as I
 from matplotlib import pyplot as plt
 import numdifftools as nd
 
@@ -17,7 +16,6 @@ def f(x):
 #     grad1 = 2 * x[0] + b * x[1]
 #     grad2 = 2 * x[1] + b * x[0]
 #     grad = np.array([grad1,grad2])
-#     # grad = nd.Gradient(f)(x)
 #     return grad
 # def fp(x):
 #     grad1 = -2*(1-x[0]) + 200*(x[1] - x[0]**2) * -2*x[0]

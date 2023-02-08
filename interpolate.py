@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 import funs as f
 
 def interpolate(x,alpha1,alpha2,p):
-    beta1 = f.phip(x,alpha1,p) + f.phip(x,alpha2,p) - 3 * ((f.phi(x,alpha1,p) - f.phi(x,alpha2,p))/(alpha1 - alpha2))
+    beta1 = f.phip(x,alpha1,p) + f.phip(x,alpha2,p,) - 3 * ((f.phi(x,alpha1,p) - f.phi(x,alpha2,p))/(alpha1 - alpha2))
     beta2 = np.sign(alpha2 - alpha1) * np.sqrt(beta1**2 - f.phip(x,alpha1,p) * f.phip(x,alpha2,p))
     alpha_s = alpha2 - (alpha2 - alpha1) * ((f.phip(x,alpha2,p) + beta2 - beta1)/(f.phip(x,alpha2,p) - f.phip(x,alpha1,p) + 2 * beta2))
     return alpha_s

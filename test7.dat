@@ -1,6 +1,6 @@
 1
 
-   Abaqus 2022.HF4                                  Date 09-Feb-2023   Time 15:20:13
+   Abaqus 2022.HF4                                  Date 10-Feb-2023   Time 16:26:58
    For use by BRIGHAM YOUNG UNIVERSITY under license from Dassault Systemes or its subsidiary.
 
 
@@ -1349,7 +1349,7 @@
              WarnNodeOverconBoundCoup.
 1
 
-   Abaqus 2022.HF4                                  Date 09-Feb-2023   Time 15:20:13
+   Abaqus 2022.HF4                                  Date 10-Feb-2023   Time 16:26:58
    For use by BRIGHAM YOUNG UNIVERSITY under license from Dassault Systemes or its subsidiary.
 
                                                                                      
@@ -5271,10 +5271,10 @@ LOCAL TO GLOBAL NODE AND ELEMENT MAPS
        USER TIME (SEC)      =     0.20    
        SYSTEM TIME (SEC)    =     0.10    
        TOTAL CPU TIME (SEC) =     0.30    
-       WALLCLOCK TIME (SEC) =            1
+       WALLCLOCK TIME (SEC) =            0
 1
 
-   Abaqus 2022.HF4                                  Date 09-Feb-2023   Time 15:20:17
+   Abaqus 2022.HF4                                  Date 10-Feb-2023   Time 16:27:01
    For use by BRIGHAM YOUNG UNIVERSITY under license from Dassault Systemes or its subsidiary.
 
                                                                                                STEP    1  INCREMENT    1
@@ -5402,7 +5402,7 @@ LOCAL TO GLOBAL NODE AND ELEMENT MAPS
 
 
      JOB TIME SUMMARY
-       USER TIME (SEC)      =      1.6    
-       SYSTEM TIME (SEC)    =     0.20    
-       TOTAL CPU TIME (SEC) =      1.8    
+       USER TIME (SEC)      =      1.7    
+       SYSTEM TIME (SEC)    =      0.0    
+       TOTAL CPU TIME (SEC) =      1.7    
        WALLCLOCK TIME (SEC) =            2

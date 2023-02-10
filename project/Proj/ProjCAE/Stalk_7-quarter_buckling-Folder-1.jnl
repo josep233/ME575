@@ -1,0 +1,365 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from optimization import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.openStep(
+    'C:\\Users\\Joseph\\Box\\CropBiomechanics\\COMPUTATIONALMODELING\\Parameterized3DGeometry\\All_STEP_Files\\Stalk_7.STEP'
+    , scaleFromFile=OFF)
+mdb.models['Model-1'].PartFromGeometryFile(bodyNum=1, combine=False, 
+    dimensionality=THREE_D, geometryFile=mdb.acis, name='Stalk_7-1', type=
+    DEFORMABLE_BODY)
+mdb.models['Model-1'].PartFromGeometryFile(bodyNum=2, combine=False, 
+    dimensionality=THREE_D, geometryFile=mdb.acis, name='Stalk_7-2', type=
+    DEFORMABLE_BODY)
+mdb.models['Model-1'].parts.changeKey(fromName='Stalk_7-1', toName=
+    'Stalk_7-rind')
+mdb.models['Model-1'].parts.changeKey(fromName='Stalk_7-2', toName=
+    'Stalk_7-pith')
+mdb.models['Model-1'].Material('rind')
+mdb.models['Model-1'].Material('pith')
+mdb.models['Model-1'].materials['pith'].Elastic(table=((26, 26, 120, 0.325, 
+    0.0475, 0.0475, 9.8113, 14.4, 14.4), ), type=ENGINEERING_CONSTANTS)
+mdb.models['Model-1'].materials['rind'].Elastic(table=((850, 850, 13081.6523, 
+    0.325, 0.0475, 0.0475, 320.7547, 1569.7983, 1569.7983), ), type=
+    ENGINEERING_CONSTANTS)
+mdb.models['Model-1'].HomogeneousSolidSection(material='pith', name=
+    'Pith Section', thickness=None)
+mdb.models['Model-1'].HomogeneousSolidSection(material='rind', name=
+    'Rind Section', thickness=None)
+mdb.models['Model-1'].parts['Stalk_7-pith'].Set(cells=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].cells.getSequenceFromMask((
+    '[#1 ]', ), ), name='Pith Part')
+mdb.models['Model-1'].parts['Stalk_7-pith'].SectionAssignment(offset=0.0, 
+    offsetField='', offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].sets['Pith Part'], sectionName=
+    'Pith Section', thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].parts['Stalk_7-rind'].Set(cells=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].cells.getSequenceFromMask((
+    '[#1 ]', ), ), name='Rind Part')
+mdb.models['Model-1'].parts['Stalk_7-rind'].SectionAssignment(offset=0.0, 
+    offsetField='', offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].sets['Rind Part'], sectionName=
+    'Rind Section', thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].parts['Stalk_7-pith'].MaterialOrientation(
+    additionalRotationType=ROTATION_NONE, axis=AXIS_1, fieldName='', localCsys=
+    None, orientationType=GLOBAL, region=Region(
+    cells=mdb.models['Model-1'].parts['Stalk_7-pith'].cells.getSequenceFromMask(
+    mask=('[#1 ]', ), )), stackDirection=STACK_3)
+mdb.models['Model-1'].parts['Stalk_7-rind'].MaterialOrientation(
+    additionalRotationType=ROTATION_NONE, axis=AXIS_1, fieldName='', localCsys=
+    None, orientationType=GLOBAL, region=Region(
+    cells=mdb.models['Model-1'].parts['Stalk_7-rind'].cells.getSequenceFromMask(
+    mask=('[#1 ]', ), )), stackDirection=STACK_3)
+mdb.models['Model-1'].rootAssembly.DatumCsysByDefault(CARTESIAN)
+mdb.models['Model-1'].rootAssembly.Instance(dependent=ON, name='Stalk_7-pith-1'
+    , part=mdb.models['Model-1'].parts['Stalk_7-pith'])
+mdb.models['Model-1'].rootAssembly.Instance(dependent=ON, name='Stalk_7-rind-1'
+    , part=mdb.models['Model-1'].parts['Stalk_7-rind'])
+mdb.models['Model-1'].parts['Stalk_7-pith'].DatumPlaneByPrincipalPlane(offset=0
+    , principalPlane=XZPLANE)
+mdb.models['Model-1'].parts['Stalk_7-pith'].DatumPlaneByPrincipalPlane(offset=0
+    , principalPlane=YZPLANE)
+mdb.models['Model-1'].parts['Stalk_7-pith'].DatumPlaneByPrincipalPlane(offset=0
+    , principalPlane=XYPLANE)
+mdb.models['Model-1'].parts['Stalk_7-rind'].DatumPlaneByPrincipalPlane(offset=0
+    , principalPlane=XZPLANE)
+mdb.models['Model-1'].parts['Stalk_7-rind'].DatumPlaneByPrincipalPlane(offset=0
+    , principalPlane=YZPLANE)
+mdb.models['Model-1'].parts['Stalk_7-rind'].DatumPlaneByPrincipalPlane(offset=0
+    , principalPlane=XYPLANE)
+mdb.models['Model-1'].parts['Stalk_7-pith'].PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].cells.getSequenceFromMask(
+    mask=('[#1 ]', ), ), datumPlane=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].datums[4])
+mdb.models['Model-1'].parts['Stalk_7-pith'].PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].cells.getSequenceFromMask(
+    mask=('[#3 ]', ), ), datumPlane=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].datums[5])
+mdb.models['Model-1'].parts['Stalk_7-pith'].PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].cells.getSequenceFromMask(
+    mask=('[#f ]', ), ), datumPlane=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].datums[6])
+mdb.models['Model-1'].parts['Stalk_7-rind'].PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].cells.getSequenceFromMask(
+    mask=('[#1 ]', ), ), datumPlane=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].datums[4])
+mdb.models['Model-1'].parts['Stalk_7-rind'].PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].cells.getSequenceFromMask(
+    mask=('[#3 ]', ), ), datumPlane=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].datums[5])
+mdb.models['Model-1'].parts['Stalk_7-rind'].PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].cells.getSequenceFromMask(
+    mask=('[#f ]', ), ), datumPlane=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].datums[6])
+mdb.models['Model-1'].ConstrainedSketch(gridSpacing=6.33, name='__profile__', 
+    sheetSize=253.25, transform=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].MakeSketchTransform(
+    sketchPlane=mdb.models['Model-1'].parts['Stalk_7-pith'].datums[5], 
+    sketchPlaneSide=SIDE1, 
+    sketchUpEdge=mdb.models['Model-1'].parts['Stalk_7-pith'].edges[22], 
+    sketchOrientation=RIGHT, origin=(0.0, 4e-06, 0.0)))
+mdb.models['Model-1'].parts['Stalk_7-pith'].projectReferencesOntoSketch(filter=
+    COPLANAR_EDGES, sketch=mdb.models['Model-1'].sketches['__profile__'])
+mdb.models['Model-1'].sketches['__profile__'].rectangle(point1=(-68.0475, 
+    28.485), point2=(69.63, -23.7375))
+mdb.models['Model-1'].parts['Stalk_7-pith'].CutExtrude(flipExtrudeDirection=OFF
+    , sketch=mdb.models['Model-1'].sketches['__profile__'], sketchOrientation=
+    RIGHT, sketchPlane=mdb.models['Model-1'].parts['Stalk_7-pith'].datums[5], 
+    sketchPlaneSide=SIDE1, sketchUpEdge=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].edges[22])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(gridSpacing=6.33, name='__profile__', 
+    sheetSize=253.25, transform=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].MakeSketchTransform(
+    sketchPlane=mdb.models['Model-1'].parts['Stalk_7-pith'].datums[6], 
+    sketchPlaneSide=SIDE1, 
+    sketchUpEdge=mdb.models['Model-1'].parts['Stalk_7-pith'].edges[19], 
+    sketchOrientation=RIGHT, origin=(5.774396, 4e-06, 0.0)))
+mdb.models['Model-1'].parts['Stalk_7-pith'].projectReferencesOntoSketch(filter=
+    COPLANAR_EDGES, sketch=mdb.models['Model-1'].sketches['__profile__'])
+mdb.models['Model-1'].sketches['__profile__'].rectangle(point1=(
+    -10.4419935280643, 6.41348546974591), point2=(11.0775, -6.33))
+mdb.models['Model-1'].parts['Stalk_7-pith'].CutExtrude(flipExtrudeDirection=OFF
+    , sketch=mdb.models['Model-1'].sketches['__profile__'], sketchOrientation=
+    RIGHT, sketchPlane=mdb.models['Model-1'].parts['Stalk_7-pith'].datums[6], 
+    sketchPlaneSide=SIDE1, sketchUpEdge=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].edges[19])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(gridSpacing=6.38, name='__profile__', 
+    sheetSize=255.53, transform=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].MakeSketchTransform(
+    sketchPlane=mdb.models['Model-1'].parts['Stalk_7-rind'].datums[5], 
+    sketchPlaneSide=SIDE1, 
+    sketchUpEdge=mdb.models['Model-1'].parts['Stalk_7-rind'].edges[46], 
+    sketchOrientation=RIGHT, origin=(0.0, 0.008, 0.0)))
+mdb.models['Model-1'].parts['Stalk_7-rind'].projectReferencesOntoSketch(filter=
+    COPLANAR_EDGES, sketch=mdb.models['Model-1'].sketches['__profile__'])
+mdb.models['Model-1'].sketches['__profile__'].rectangle(point1=(-59.015, 
+    17.545), point2=(59.015, -20.735))
+mdb.models['Model-1'].parts['Stalk_7-rind'].CutExtrude(flipExtrudeDirection=OFF
+    , sketch=mdb.models['Model-1'].sketches['__profile__'], sketchOrientation=
+    RIGHT, sketchPlane=mdb.models['Model-1'].parts['Stalk_7-rind'].datums[5], 
+    sketchPlaneSide=SIDE1, sketchUpEdge=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].edges[46])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(gridSpacing=6.38, name='__profile__', 
+    sheetSize=255.53, transform=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].MakeSketchTransform(
+    sketchPlane=mdb.models['Model-1'].parts['Stalk_7-rind'].datums[6], 
+    sketchPlaneSide=SIDE1, 
+    sketchUpEdge=mdb.models['Model-1'].parts['Stalk_7-rind'].edges[3], 
+    sketchOrientation=RIGHT, origin=(6.427413, 0.008, 0.0)))
+mdb.models['Model-1'].parts['Stalk_7-rind'].projectReferencesOntoSketch(filter=
+    COPLANAR_EDGES, sketch=mdb.models['Model-1'].sketches['__profile__'])
+mdb.models['Model-1'].sketches['__profile__'].rectangle(point1=(
+    -11.6154402925698, 6.7508821990269), point2=(11.7283933957673, 
+    -7.10817114571504))
+mdb.models['Model-1'].parts['Stalk_7-rind'].CutExtrude(flipExtrudeDirection=OFF
+    , sketch=mdb.models['Model-1'].sketches['__profile__'], sketchOrientation=
+    RIGHT, sketchPlane=mdb.models['Model-1'].parts['Stalk_7-rind'].datums[6], 
+    sketchPlaneSide=SIDE1, sketchUpEdge=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].edges[3])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].parts['Stalk_7-pith'].DatumPlaneByPrincipalPlane(offset=
+    4.532, principalPlane=XYPLANE)
+mdb.models['Model-1'].parts['Stalk_7-rind'].DatumPlaneByPrincipalPlane(offset=
+    4.532, principalPlane=XYPLANE)
+mdb.models['Model-1'].parts['Stalk_7-pith'].PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].cells.getSequenceFromMask(
+    mask=('[#3 ]', ), ), datumPlane=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].datums[12])
+mdb.models['Model-1'].parts['Stalk_7-rind'].PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].cells.getSequenceFromMask(
+    mask=('[#3 ]', ), ), datumPlane=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].datums[12])
+mdb.models['Model-1'].parts['Stalk_7-pith'].setMeshControls(elemShape=TET, 
+    regions=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].cells.getSequenceFromMask((
+    '[#9]', ), ), technique=FREE)
+mdb.models['Model-1'].parts['Stalk_7-pith'].seedEdgeByNumber(constraint=FINER, 
+    edges=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].edges.getSequenceFromMask((
+    '[#88000 ]', ), ), number=1)
+mdb.models['Model-1'].parts['Stalk_7-pith'].setMeshControls(algorithm=
+    MEDIAL_AXIS, regions=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].cells.getSequenceFromMask((
+    '[#6]', ), ), technique=SWEEP)
+mdb.models['Model-1'].parts['Stalk_7-pith'].seedEdgeByBias(biasMethod=SINGLE, 
+    constraint=FINER, end1Edges=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].edges.getSequenceFromMask((
+    '[#920 ]', ), ), end2Edges=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].edges.getSequenceFromMask((
+    '[#400 ]', ), ), number=1, ratio=3.0)
+mdb.models['Model-1'].parts['Stalk_7-pith'].seedEdgeByNumber(constraint=FINER, 
+    edges=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].edges.getSequenceFromMask((
+    '[#2d00 ]', ), ), number=6)
+mdb.models['Model-1'].parts['Stalk_7-pith'].seedEdgeByNumber(constraint=FINER, 
+    edges=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].edges.getSequenceFromMask((
+    '[#400212 ]', ), ), number=1)
+mdb.models['Model-1'].parts['Stalk_7-pith'].seedEdgeByNumber(constraint=FINER, 
+    edges=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].edges.getSequenceFromMask((
+    '[#30100d ]', ), ), number=1)
+mdb.models['Model-1'].parts['Stalk_7-pith'].seedEdgeByNumber(constraint=FINER, 
+    edges=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].edges.getSequenceFromMask((
+    '[#20 ]', ), ), number=1)
+mdb.models['Model-1'].parts['Stalk_7-rind'].setMeshControls(elemShape=WEDGE, 
+    regions=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].cells.getSequenceFromMask((
+    '[#9]', ), ), technique=SWEEP)
+mdb.models['Model-1'].parts['Stalk_7-rind'].setMeshControls(regions=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].cells.getSequenceFromMask((
+    '[#6]', ), ), technique=STRUCTURED)
+mdb.models['Model-1'].parts['Stalk_7-rind'].seedEdgeByNumber(constraint=FINER, 
+    edges=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].edges.getSequenceFromMask((
+    '[#9800000 ]', ), ), number=2)
+mdb.models['Model-1'].parts['Stalk_7-rind'].seedEdgeByBias(biasMethod=SINGLE, 
+    constraint=FINER, end1Edges=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].edges.getSequenceFromMask((
+    '[#50280 ]', ), ), end2Edges=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].edges.getSequenceFromMask((
+    '[#90000000 ]', ), ), number=1, ratio=1.0)
+mdb.models['Model-1'].parts['Stalk_7-rind'].seedEdgeByNumber(constraint=FINER, 
+    edges=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].edges.getSequenceFromMask((
+    '[#4050006a #1 ]', ), ), number=5)
+mdb.models['Model-1'].parts['Stalk_7-rind'].seedEdgeByNumber(constraint=FINER, 
+    edges=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].edges.getSequenceFromMask((
+    '[#28b400 ]', ), ), number=18)
+mdb.models['Model-1'].parts['Stalk_7-rind'].seedEdgeByNumber(constraint=FINER, 
+    edges=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].edges.getSequenceFromMask((
+    '[#15 ]', ), ), number=1)
+mdb.models['Model-1'].parts['Stalk_7-rind'].setSweepPath(edge=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].edges[1], region=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].cells[0], sense=REVERSE)
+mdb.models['Model-1'].parts['Stalk_7-rind'].setSweepPath(edge=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].edges[5], region=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].cells[3], sense=FORWARD)
+mdb.models['Model-1'].parts['Stalk_7-rind'].generateMesh(regions=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].cells.getSequenceFromMask((
+    '[#9]', ), ))
+mdb.models['Model-1'].parts['Stalk_7-rind'].generateMesh(regions=
+    mdb.models['Model-1'].parts['Stalk_7-rind'].cells.getSequenceFromMask((
+    '[#6]', ), ))
+mdb.models['Model-1'].parts['Stalk_7-pith'].generateMesh(regions=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].cells.getSequenceFromMask((
+    '[#6]', ), ))
+mdb.models['Model-1'].parts['Stalk_7-pith'].generateMesh(regions=
+    mdb.models['Model-1'].parts['Stalk_7-pith'].cells.getSequenceFromMask((
+    '[#9]', ), ))
+mdb.models['Model-1'].rootAssembly.Set(faces=
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-pith-1'].faces.getSequenceFromMask(
+    mask=('[#c000 ]', ), )+\
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-rind-1'].faces.getSequenceFromMask(
+    mask=('[#30000 ]', ), ), name='Front Face')
+mdb.models['Model-1'].rootAssembly.Surface(name='Inner Rind', side1Faces=
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-rind-1'].faces.getSequenceFromMask(
+    ('[#4860 ]', ), ))
+mdb.models['Model-1'].rootAssembly.Surface(name='Outer Pith', side1Faces=
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-pith-1'].faces.getSequenceFromMask(
+    ('[#1228 ]', ), ))
+mdb.models['Model-1'].rootAssembly.Surface(name='Outer Rind', side1Faces=
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-rind-1'].faces.getSequenceFromMask(
+    ('[#c0084 ]', ), ))
+mdb.models['Model-1'].rootAssembly.ReferencePoint(point=
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-pith-1'].vertices[8])
+mdb.models['Model-1'].rootAssembly.ReferencePoint(point=
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-rind-1'].vertices[7])
+mdb.models['Model-1'].rootAssembly.ReferencePoint(point=
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-rind-1'].vertices[17])
+mdb.models['Model-1'].rootAssembly.Set(faces=
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-rind-1'].faces.getSequenceFromMask(
+    mask=('[#600 ]', ), )+\
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-pith-1'].faces.getSequenceFromMask(
+    mask=('[#180 ]', ), ), name='MiddleSurface')
+mdb.models['Model-1'].rootAssembly.Set(name='MiddleRP Set', referencePoints=(
+    mdb.models['Model-1'].rootAssembly.referencePoints[11], ))
+mdb.models['Model-1'].rootAssembly.Set(name='ExtraRP Set', referencePoints=(
+    mdb.models['Model-1'].rootAssembly.referencePoints[12], ))
+mdb.models['Model-1'].rootAssembly.Set(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-pith-1'].cells.getSequenceFromMask(
+    mask=('[#f ]', ), )+\
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-rind-1'].cells.getSequenceFromMask(
+    mask=('[#f ]', ), ), name='Symmetry Geometry', referencePoints=(
+    mdb.models['Model-1'].rootAssembly.referencePoints[10], 
+    mdb.models['Model-1'].rootAssembly.referencePoints[11], 
+    mdb.models['Model-1'].rootAssembly.referencePoints[12]))
+mdb.models['Model-1'].rootAssembly.Set(name='TopRP', referencePoints=(
+    mdb.models['Model-1'].rootAssembly.referencePoints[10], ))
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-rind-1'].edges.getSequenceFromMask(
+    ('[#1000 ]', ), ), name='TopUpperEdge')
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-rind-1'].edges.getSequenceFromMask(
+    ('[#2000 ]', ), ), name='TopLowerEdge')
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-rind-1'].edges.getSequenceFromMask(
+    ('[#1000 ]', ), ), name='BottomUpperEdge')
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['Stalk_7-rind-1'].edges.getSequenceFromMask(
+    ('[#2000 ]', ), ), name='BottomLowerEdge')
+mdb.models['Model-1'].RigidBody(name='TopRP', refPointRegion=Region(
+    referencePoints=(mdb.models['Model-1'].rootAssembly.referencePoints[10], ))
+    , tieRegion=mdb.models['Model-1'].rootAssembly.sets['Front Face'])
+mdb.models['Model-1'].Coupling(controlPoint=
+    mdb.models['Model-1'].rootAssembly.sets['MiddleRP Set'], couplingType=
+    DISTRIBUTING, influenceRadius=2.0, localCsys=None, name='MiddleRP', 
+    surface=mdb.models['Model-1'].rootAssembly.surfaces['Outer Rind'], u1=ON, 
+    u2=ON, u3=ON, ur1=ON, ur2=ON, ur3=ON, weightingMethod=UNIFORM)
+mdb.models['Model-1'].Coupling(controlPoint=
+    mdb.models['Model-1'].rootAssembly.sets['ExtraRP Set'], couplingType=
+    DISTRIBUTING, influenceRadius=2.0, localCsys=None, name='ExtraRP', surface=
+    mdb.models['Model-1'].rootAssembly.surfaces['Outer Rind'], u1=ON, u2=ON, 
+    u3=ON, ur1=ON, ur2=ON, ur3=ON, weightingMethod=UNIFORM)
+mdb.models['Model-1'].Tie(adjust=OFF, main=
+    mdb.models['Model-1'].rootAssembly.surfaces['Inner Rind'], name=
+    'PithtoRind', positionToleranceMethod=COMPUTED, secondary=
+    mdb.models['Model-1'].rootAssembly.surfaces['Outer Pith'], thickness=ON, 
+    tieRotations=ON)
+mdb.models['Model-1'].BuckleStep(maxIterations=1000, name='BuckleStep', 
+    numEigen=2, previous='Initial', vectors=4)
+mdb.models['Model-1'].fieldOutputRequests['F-Output-1'].setValues(variables=(
+    'S', 'LE', 'U', 'IVOL', 'COORD', 'TF'))
+mdb.models['Model-1'].DisplacementBC(amplitude=UNSET, buckleCase=
+    PERTURBATION_AND_BUCKLING, createStepName='BuckleStep', distributionType=
+    UNIFORM, fieldName='', fixed=OFF, localCsys=None, name='Fix MiddleRP', 
+    region=mdb.models['Model-1'].rootAssembly.sets['MiddleRP Set'], u1=0.0, u2=
+    0.0, u3=0.0, ur1=0.0, ur2=0.0, ur3=0.0)
+mdb.models['Model-1'].DisplacementBC(amplitude=UNSET, createStepName=
+    'BuckleStep', distributionType=UNIFORM, fieldName='', fixed=OFF, localCsys=
+    None, name='Rotation', region=
+    mdb.models['Model-1'].rootAssembly.sets['MiddleSurface'], u1=UNSET, u2=
+    UNSET, u3=0.0, ur1=0.0, ur2=0.0, ur3=0.0)
+mdb.models['Model-1'].XsymmBC(createStepName='BuckleStep', localCsys=None, 
+    name='Symmetry', region=
+    mdb.models['Model-1'].rootAssembly.sets['Symmetry Geometry'])
+mdb.models['Model-1'].Moment(cm1=-182.860117514124, createStepName='BuckleStep'
+    , distributionType=UNIFORM, field='', localCsys=None, name='TopMoment', 
+    region=mdb.models['Model-1'].rootAssembly.sets['TopRP'])
+mdb.models['Model-1'].ConcentratedForce(cf2=0.3548, createStepName='BuckleStep'
+    , distributionType=UNIFORM, field='', localCsys=None, name='TopForce', 
+    region=mdb.models['Model-1'].rootAssembly.sets['TopRP'])
+mdb.Job(atTime=None, contactPrint=OFF, description='', echoPrint=OFF, 
+    explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=ON, 
+    memory=90, memoryUnits=PERCENTAGE, model='Model-1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='Stalk_7-quarter_buckling-Folder-1', 
+    nodalOutputPrecision=SINGLE, numCpus=1, numGPUs=0, queue=None, 
+    resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=
+    0, waitMinutes=0)
+# Save by Joseph on 2023_02_09-13.11.41; build 2022.HF4 2022_07_25-12.30.49 176790

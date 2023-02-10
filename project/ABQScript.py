@@ -21,11 +21,13 @@ from odbMaterial import *
 from odbSection import *
 from abaqusConstants import *
 import regionToolset
+def run():
     n = 1
     if n == 1:
-        openMdb("C:\\Users\\Joseph\Box\\CropBiomechanics\\COMPUTATIONALMODELING\\Inputs\VarSensInit\\VarSensInitCAE\\Stalk_{stalk}")
+        openMdb("C:\\Users\\Joseph\\Desktop\\Personal\\ME575\\project\\Proj\\ProjCAE\\Stalk_{stalk}-quarter_buckling-Folder-1")
         mdb.models['Model-1'].Material('rind')
         mdb.models['Model-1'].Material('pith')
+        print('test')
         
         mdb.models['Model-1'].materials['pith'].Elastic(table=({pithprops}, ), type=ENGINEERING_CONSTANTS)
         mdb.models['Model-1'].materials['rind'].Elastic(table=({rindprops}, ), type=ENGINEERING_CONSTANTS)
@@ -38,11 +40,12 @@ import regionToolset
         
         odb = openOdb(path=jobname+'.odb')
         
-        bucklingtestdata = odb.steps['BuckleStep'].frames[1].description
-        string = str(bucklingtestdata)
-        ans = string[-6:]
-        """
-
+        mode = odb.steps['BuckleStep'].frames[1].description
+        dat = str(mode)
+        ans = dat[-6:]
+    return ans
+ans = run()
+"""
     location = "C:\\Users\\Joseph\Desktop\\Temp\\test.py"
     file = open(location,'w')
     file.write(txt)

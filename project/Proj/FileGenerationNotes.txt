@@ -1,0 +1,20 @@
+script name: Proj_Script.py
+PURPOSE: the purpose of this test is to do a dry run material sensitivity for buckling with material variation sampling.
+geometry: quarter
+material: approximate
+output: INP
+analysis: buckling
+input type: Folder
+offset correction: offset_correction
+load faces: both
+mesh: constant
+error: flat
+pithseed: 1
+rindseed: 1
+number of eigenvalues: 2
+node length: 5
+results folder name: Proj
+CAE folder name: ProjCAE
+--------------------------------------------------------------------------------------------
+Stalk,Time/Error,pithE1,pithE2,pithE3,pithNu12,pithNu13,pithNu23,pithG12,pithG13,pithG23,rindE1,rindE2,rindE3,rindNu12,rindNu13,rindNu23,rindG12,rindG13,rindG23,pithhex,pithtet,pithwedge,rindhex,rindtet,rindwedge,
+Stalk_7-quarter_buckling-Folder-1,7.0905199,26,26,120,0.325,0.0475,0.0475,9.8113,14.4,14.4,850,850,13081.6523,0.325,0.0475,0.0475,320.7547,1569.7983,1569.7983,36,18,0,180,0,30,

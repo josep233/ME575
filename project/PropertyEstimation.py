@@ -29,6 +29,7 @@ def properties(stalk):
         rindG13 = np.mean([rindG13_low_constant,rindG13_high_constant]) * rindE3
         rindG23 = rindG13
         rindE1 = rindE1_avg
+        rindE2 = rindE1
         rindNu12 = np.mean([rindNu12_low,rindNu12_high])
         rindG12 = rindE1 / (2*(1+rindNu12))
         rindNu13 = np.mean([rindNu13_low,rindNu13_high])
@@ -41,6 +42,7 @@ def properties(stalk):
         pithG13 = np.mean([pithG13_low_constant,pithG13_high_constant]) * pithE3
         pithG23 = pithG13
         pithE1 = pithE1_avg
+        pithE2 = pithE1
         pithNu12 = np.mean([pithNu12_low,pithNu12_high])
         pithG12 = pithE1 / (2*(1+pithNu12))
         pithNu13 = np.mean([pithNu13_low,pithNu13_high])

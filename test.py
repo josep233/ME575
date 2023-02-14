@@ -3,7 +3,7 @@ import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 from scipy.optimize import approx_fprime
-import jax.numpy as jnp
+from autograd import grad
 
 def f(x):
     al = s.truss(x)
@@ -83,8 +83,8 @@ def cs(A0):
     return Jmass, Jstress
 
 def ad(A0):
-    Jmass = jnp.grad(mass)
-    Jstress = jnp.grad(stress)
+    Jmass = grad(mass(A0))
+    Jstress = grad(stress(A0))
     return Jmass, Jstress
 
 

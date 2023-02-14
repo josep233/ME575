@@ -27,7 +27,7 @@ def run():
         openMdb("C:\\Users\\Joseph\\Desktop\\Personal\\ME575\\project\\Proj\\ProjCAE\\Stalk_{stalk}-quarter_buckling-Folder-1")
         mdb.models['Model-1'].Material('rind')
         mdb.models['Model-1'].Material('pith')
-        print('test')
+        buckling = open(r'C:\\Users\\Joseph\Desktop\\Temp\\test.txt','w')
         
         mdb.models['Model-1'].materials['pith'].Elastic(table=({pithprops}, ), type=ENGINEERING_CONSTANTS)
         mdb.models['Model-1'].materials['rind'].Elastic(table=({rindprops}, ), type=ENGINEERING_CONSTANTS)
@@ -43,7 +43,8 @@ def run():
         mode = odb.steps['BuckleStep'].frames[1].description
         dat = str(mode)
         ans = dat[-6:]
-        ans = str(5)
+        buckling.write(ans)
+        buckling.close()
     return ans
 ans = run()
 """

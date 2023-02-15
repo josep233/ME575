@@ -1,7 +1,8 @@
 #import needed libraries
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
-import numpy as np
+import torch as np
+import numpy as npp
 from math import sin, cos, sqrt, pi
 
 def truss(A):
@@ -24,8 +25,8 @@ def truss(A):
     Ls = 360.0  # length of sides
     Ld = sqrt(360**2 * 2)  # length of diagonals
 
-    start = [5, 3, 6, 4, 4, 2, 5, 6, 3, 4]
-    finish = [3, 1, 4, 2, 3, 1, 4, 3, 2, 1]
+    start = np.array([5, 3, 6, 4, 4, 2, 5, 6, 3, 4])
+    finish = np.array([3, 1, 4, 2, 3, 1, 4, 3, 2, 1])
     phi = np.array([0, 0, 0, 0, 90, 90, -45, 45, -45, 45])*pi/180
     L = np.array([Ls, Ls, Ls, Ls, Ls, Ls, Ld, Ld, Ld, Ld])
 
@@ -56,9 +57,12 @@ def truss(A):
         Ksub, Ssub = bar(E[i], A[i], L[i], phi[i])
 
         # insert submatrix into global matrix
-        idx = node2idx([start[i], finish[i]], DOF)  # pass in the starting and ending node number for this element
-        K[np.ix_(idx, idx)] += Ksub
+        idx = node2idx([start[i], finish[i]], DOF) # pass in the starting and ending node number for this element
+        a = np.ix_(idx, idx)
+        print(a)
+        K[a] = K[a] + Ksub
         S[i, idx] = Ssub
+    print(K)
     # applied loads
     F = np.zeros((n*DOF, 1))
 
@@ -142,3 +146,8 @@ def node2idx(node, DOF):
         idx = np.concatenate((idx, np.arange(start, finish, dtype=int)))
 
     return idx
+
+A0 = np.ones([10,1]) * 10
+
+g = np.autograd.grad(truss,A0)
+print(g)

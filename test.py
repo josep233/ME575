@@ -3,7 +3,8 @@ import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 from scipy.optimize import approx_fprime
-from autograd import grad
+# from autograd import grad
+import autograd.numpy as np
 
 def f(x):
     al = s.truss(x)
@@ -64,7 +65,7 @@ def fd(A0):
         A0[j] = A0[j] - delta_x
     Jmass = Jmass.ravel()
     Jstress = Jstress.ravel()
-    return Jmass, Jstress
+    return Jmass
 
 def cs(A0):
     iA0 = A0.copy()
@@ -74,39 +75,46 @@ def cs(A0):
     Jstress =  np.zeros([len(iA0),len(stress(iA0))])
     for j in range(0,len(iA0)):
         iA0[j] = complex(iA0[j],0) + complex(0,h)
-        print(A0[j])
         mass_plus = mass(iA0)
         stress_plus = stress(iA0)
         Jmass[0][j] = np.imag(mass_plus) / h
         Jstress[:,j] = np.imag(stress_plus) / h
         iA0[j] = complex(iA0[j],0) - complex(0,h)
-    return Jmass, Jstress
+    return Jmass
 
-def ad(A0):
-    Jmass = grad(mass(A0))
-    Jstress = grad(stress(A0))
-    return Jmass, Jstress
+# def ad(A0):
+#     Jmass = grad(mass)
+#     ans = Jmass(A0)
+#     return ans
 
-
-
-#calllback function creation for tracking convergence
+#callback function creation for tracking convergence
 Nfeval = 1
 fe = []
 mas = []
 jac = 0
 cjac = 0
+err = 0
 def callb(A0):
     global Nfeval
+    global err
     fe.append(Nfeval)
     mas.append(mass(A0))
-    cjac = (ad(A0)[0])
+    Jmass = fd(A0)
     jac = (approx_fprime(A0, mass, 1E-8))
+    err = np.append(err,(np.square(Jmass - jac)).mean())
     print("function evaluation: ",Nfeval)
-    print("calculated gradient: ",cjac)
-    print("actual gradient: ",jac)
+    # print("calculated gradient: ",Jstress)
+    # print("actual gradient: ",jac)
     Nfeval += 1
 
 
 #vanilla optimization
-ans = minimize(mass,A0,constraints = cons,callback=callb,options={'maxiter':1})
-# print(ans)
+ans = minimize(mass,A0,constraints = cons,callback=callb,jac=fd,options={'maxiter':10000})
+print(ans)
+print(err)
+
+plt.figure()
+plt.boxplot(err)
+plt.ylabel("Mean squared error (%)")
+plt.title("Forward Finite Difference")
+plt.show()

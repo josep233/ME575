@@ -3,7 +3,7 @@ import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 from scipy.optimize import approx_fprime
-from autograd import grad
+from jax import grad
 
 def f(x):
     al = s.truss(x)

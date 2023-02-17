@@ -1,8 +1,11 @@
 #import needed libraries
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
-import numpy as np
+import autograd.numpy as np
 from math import sin, cos, sqrt, pi
+from scipy.optimize import approx_fprime
+from jax import grad
+import jax.numpy as np
 
 def truss(A):
     """Computes mass and stress for the 10-bar truss problem
@@ -45,8 +48,10 @@ def truss(A):
     mass = np.sum(rho*A*L)
 
     # stiffness and stress matrices
-    K = np.zeros((DOF*n, DOF*n),dtype=complex)
-    S = np.zeros((nbar, DOF*n),dtype=complex)
+    # K = np.zeros((DOF*n, DOF*n),dtype=complex)
+    # S = np.zeros((nbar, DOF*n),dtype=complex)
+    K = np.zeros((DOF*n, DOF*n))
+    S = np.zeros((nbar, DOF*n))
 
     for i in range(nbar):  # loop through each bar
 
@@ -55,16 +60,15 @@ def truss(A):
 
         # insert submatrix into global matrix
         idx = node2idx([start[i], finish[i]], DOF)  # pass in the starting and ending node number for this element
-        K[np.ix_(idx, idx)] += Ksub
-        S[i, idx] = Ssub
-
+        K.at[np.ix_(idx, idx)].add(Ksub)
+        S.at[i, idx].set(Ssub)
     # applied loads
     F = np.zeros((n*DOF, 1))
 
     for i in range(n):
         idx = node2idx([i+1], DOF)  # add 1 b.c. made indexing 1-based for convenience
-        F[idx[0]] = Fx[i]
-        F[idx[1]] = Fy[i]
+        F.at[idx[0]].set(Fx[i])
+        F.at[idx[1]].set(Fy[i])
 
 
     # boundary condition
@@ -141,3 +145,107 @@ def node2idx(node, DOF):
         idx = np.concatenate((idx, np.arange(start, finish, dtype=int)))
 
     return idx
+
+#=============================================================================================================
+def f(x):
+    al = truss(x)
+    return al
+
+def mass(x):
+    mass = f(x)[0]
+    return mass
+
+def stress(x):
+    stress = f(x)[1]
+    return stress
+
+#define first inequality: stresses
+def g1(x,i):
+    stressa = 25 * 10 **3
+    stressb = 75 * 10 **3
+    if i != 8:
+        if truss(x)[1][i] > 0:
+            con1 =  stressa - truss(x)[1][i]
+        else:
+            con1 = stressa + truss(x)[1][i]
+    else:
+        if truss(x)[1][i] >= 0:
+            con1 = stressb - truss(x)[1][i]
+        else:
+            con1 = stressb + truss(x)[1][i]
+    return con1
+
+#define second inequality: minimum CSA
+def g2(x,i):
+    con2 = x[i] - .1
+    return con2
+
+#initial guess
+A0 = np.ones([10,1]) * 10
+
+#create constraints dict
+cons = []
+for i in range(0,len(A0)):
+    cons.append({'type':'ineq','fun':g1,'args':(i,)})
+for i in range(0,len(A0)):
+    cons.append({'type':'ineq','fun':g2,'args':(i,)})
+
+def fd(A0):
+    m0 = mass(A0)
+    s0 = stress(A0)
+    h = 1E-6
+    Jmass = np.zeros([1,len(A0)])
+    Jstress =  np.zeros([len(A0),len(stress(A0))])
+    for j in range(0,len(A0)):
+        delta_x = h * (1 + abs(A0[j]))
+        A0[j] = A0[j] + delta_x
+        mass_plus = mass(A0)
+        stress_plus = stress(A0)
+        Jmass[0][j] = (mass_plus - m0) / delta_x
+        Jstress[:,j] = (stress_plus - s0) / delta_x
+        A0[j] = A0[j] - delta_x
+    Jmass = Jmass.ravel()
+    Jstress = Jstress.ravel()
+    return Jmass, Jstress
+
+def cs(A0):
+    iA0 = A0.copy()
+    iA0 = iA0.astype('complex')
+    h = 1E-200
+    Jmass = np.zeros([1,len(iA0)])
+    Jstress =  np.zeros([len(iA0),len(stress(iA0))])
+    for j in range(0,len(iA0)):
+        iA0[j] = complex(iA0[j],0) + complex(0,h)
+        print(A0[j])
+        mass_plus = mass(iA0)
+        stress_plus = stress(iA0)
+        Jmass[0][j] = np.imag(mass_plus) / h
+        Jstress[:,j] = np.imag(stress_plus) / h
+        iA0[j] = complex(iA0[j],0) - complex(0,h)
+    return Jmass, Jstress
+
+def ad(A0):
+    Jmass = grad(mass)
+    ans = Jmass(A0)
+    return ans
+
+#callback function creation for tracking convergence
+Nfeval = 1
+fe = []
+mas = []
+# jac = 0
+cjac = 0
+def callb(A0):
+    global Nfeval
+    fe.append(Nfeval)
+    mas.append(mass(A0))
+    cjac = ad(A0)
+    jac = approx_fprime(A0, mass, 1E-8)
+    print("function evaluation: ",Nfeval)
+    print("calculated gradient: ",cjac)
+    print("actual gradient: ",jac)
+    Nfeval += 1
+
+
+#vanilla optimization
+ans = minimize(mass,A0,constraints = cons,callback=callb,options={'maxiter':2})

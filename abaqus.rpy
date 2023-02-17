@@ -2,7 +2,7 @@
 #
 # Abaqus/CAE Release 2022.HF4 replay file
 # Internal Version: 2022_07_25-12.30.49 176790
-# Run by Joseph on Fri Feb 10 16:44:13 2023
+# Run by Joseph on Wed Feb 15 18:10:29 2023
 #
 
 # from driverUtils import executeOnCaeGraphicsStartup
@@ -21,7 +21,6 @@ execfile('C:/Users/Joseph/Desktop/Temp/test.py', __main__.__dict__)
 session.viewports['Viewport: 1'].setValues(displayedObject=None)
 #: The model database "C:\Users\Joseph\Desktop\Personal\ME575\project\Proj\ProjCAE\Stalk_7-quarter_buckling-Folder-1.cae" has been opened.
 session.viewports['Viewport: 1'].setValues(displayedObject=None)
-#: test
 #: Model: C:/Users/Joseph/Desktop/Personal/ME575/test7.odb
 #: Number of Assemblies:         1
 #: Number of Assembly instances: 0

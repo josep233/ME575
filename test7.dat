@@ -1,6 +1,6 @@
 1
 
-   Abaqus 2022.HF4                                  Date 10-Feb-2023   Time 16:45:16
+   Abaqus 2022.HF4                                  Date 15-Feb-2023   Time 18:10:35
    For use by BRIGHAM YOUNG UNIVERSITY under license from Dassault Systemes or its subsidiary.
 
 
@@ -1349,7 +1349,7 @@
              WarnNodeOverconBoundCoup.
 1
 
-   Abaqus 2022.HF4                                  Date 10-Feb-2023   Time 16:45:17
+   Abaqus 2022.HF4                                  Date 15-Feb-2023   Time 18:10:35
    For use by BRIGHAM YOUNG UNIVERSITY under license from Dassault Systemes or its subsidiary.
 
                                                                                      
@@ -5271,10 +5271,10 @@ LOCAL TO GLOBAL NODE AND ELEMENT MAPS
        USER TIME (SEC)      =     0.30    
        SYSTEM TIME (SEC)    =     0.10    
        TOTAL CPU TIME (SEC) =     0.40    
-       WALLCLOCK TIME (SEC) =            1
+       WALLCLOCK TIME (SEC) =            0
 1
 
-   Abaqus 2022.HF4                                  Date 10-Feb-2023   Time 16:45:20
+   Abaqus 2022.HF4                                  Date 15-Feb-2023   Time 18:10:38
    For use by BRIGHAM YOUNG UNIVERSITY under license from Dassault Systemes or its subsidiary.
 
                                                                                                STEP    1  INCREMENT    1
@@ -5388,8 +5388,8 @@ LOCAL TO GLOBAL NODE AND ELEMENT MAPS
  MODE NO      EIGENVALUE
 
 
-       1       64.044    
-       2      -64.178    
+       1      -21.488    
+       2      -23.243    
 
 
           THE ANALYSIS HAS BEEN COMPLETED
@@ -5402,7 +5402,7 @@ LOCAL TO GLOBAL NODE AND ELEMENT MAPS
 
 
      JOB TIME SUMMARY
-       USER TIME (SEC)      =      1.6    
-       SYSTEM TIME (SEC)    =     0.10    
-       TOTAL CPU TIME (SEC) =      1.7    
-       WALLCLOCK TIME (SEC) =            2
+       USER TIME (SEC)      =      3.4    
+       SYSTEM TIME (SEC)    =     0.30    
+       TOTAL CPU TIME (SEC) =      3.7    
+       WALLCLOCK TIME (SEC) =            4

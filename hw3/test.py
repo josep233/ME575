@@ -1,9 +1,9 @@
-import fea as s
+import fea2 as s
 import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 from scipy.optimize import approx_fprime
-from autograd import grad
+from jax import grad
 
 def f(x):
     al = s.truss(x)
@@ -83,9 +83,9 @@ def cs(A0):
     return Jmass, Jstress
 
 def ad(A0):
-    Jmass = grad(mass(A0))
-    Jstress = grad(stress(A0))
-    return Jmass, Jstress
+    Jmass = grad(mass,A0)
+    Jstress = grad(stress,A0)
+    return Jmass
 
 
 
@@ -99,7 +99,7 @@ def callb(A0):
     global Nfeval
     fe.append(Nfeval)
     mas.append(mass(A0))
-    cjac = (ad(A0)[0])
+    cjac = (ad(A0))
     jac = (approx_fprime(A0, mass, 1E-8))
     print("function evaluation: ",Nfeval)
     print("calculated gradient: ",cjac)

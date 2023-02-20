@@ -48,7 +48,7 @@ for i in range(0,len(A0)):
 for i in range(0,len(A0)):
     cons.append({'type':'ineq','fun':g2,'args':(i,)})
 
-def fd1(A0):
+def fd1(A0,z):
     m0 = mass(A0)
     s0 = stress(A0)
     h = 1E-6
@@ -63,10 +63,11 @@ def fd1(A0):
         Jstress[:,j] = (stress_plus - s0) / delta_x
         A0[j] = A0[j] - delta_x
     Jmass = Jmass.ravel()
+    J = Jmass[z,:]
     Jstress = Jstress.ravel()
     print("mass jac: ",np.shape(Jmass))
-    return Jmass
-def fd2(A0):
+    return J
+def fd2(A0,z):
     m0 = mass(A0)
     s0 = stress(A0)
     h = 1E-6
@@ -83,8 +84,9 @@ def fd2(A0):
     Jmass = Jmass.ravel()
     Jstress = Jstress.ravel()
     Jstress = np.reshape(Jstress,(10,10))
+    J = Jstress[:,z]
     print("stress jac: ",np.shape(Jstress))
-    return Jstress
+    return J
 
 def cs1(A0):
     iA0 = A0.copy()
@@ -129,45 +131,35 @@ fe = []
 mas = []
 jac = 0
 cjac = 0
-masserror = []
-stresserror = []
 def callb(A0):
     global Nfeval
-    global masserror
-    global stresserror
-    global Jmass
-    global Jall
-    global Jstress
+    # global Jmass
+    # global Jall
+    # global Jstress
     fe.append(Nfeval)
     mas.append(mass(A0))
-    Jmass = (fd1(A0))
-    Jstress = (fd2(A0))
-    Jall = np.reshape(np.append(Jmass,Jstress),(11,10))
-    jac1 = (approx_fprime(A0, mass, 1E-8))
-    jac2 = (approx_fprime(A0, stress, 1E-8))
-    masserror = np.append(masserror,np.max(abs((Jmass - jac1)/jac1)))
-    stresserror = np.append(stresserror,np.max(abs((Jstress - jac2)/jac2)))
+    # Jmass = (fd1(A0))
+    # Jstress = (fd2(A0))
+    # Jall = np.reshape(np.append(Jmass,Jstress),(11,10))
+    # jac1 = (approx_fprime(A0, mass, 1E-8))
+    # jac2 = (approx_fprime(A0, stress, 1E-8))
+    # masserror = np.append(masserror,np.max(abs((Jmass - jac1)/jac1)))
+    # stresserror = np.append(stresserror,np.max(abs((Jstress - jac2)/jac2)))
     print("function evaluation: ",Nfeval)
     # print("calculated gradient: ",Jstress)
     # print("actual gradient: ",jac2)
     Nfeval += 1
-    return Jmass
 
 #create constraints dict
 cons2 = []
-# for i in range(0,len(A0)):
-#     cons2 = np.append(cons2,NonlinearConstraint(lambda x: g2(x,i),lb=0,ub=np.inf,jac=fd1))
 for i in range(0,len(A0)):
-    cons2 = np.append(cons2,NonlinearConstraint(lambda x: g1(x,i),lb=0,ub=np.inf,jac=fd2,keep_feasible=True))
+    cons2 = np.append(cons2,NonlinearConstraint(lambda x: g2(x,i),lb=0,ub=np.inf,jac=lambda x: fd1(x,i)))
+for i in range(0,len(A0)):
+    cons2 = np.append(cons2,NonlinearConstraint(lambda x: g1(x,i),lb=0,ub=np.inf,jac=lambda x: fd2(x,i)))
     cons2 = np.array([cons2])
 
-print("yeee: ",np.shape(cons2))
-# cons2 = NonlinearConstraint(g2,0,np.inf,jac=Jall)
+print(cons2)
 
 #vanilla optimization
 ans = minimize(mass,A0,constraints = cons2.all(),callback=callb,options={'maxiter':100})
 print(ans)
-
-plt.figure()
-plt.boxplot(stresserror)
-plt.show()

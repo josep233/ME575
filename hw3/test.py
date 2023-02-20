@@ -1,8 +1,8 @@
-import fea2 as s
+import fea as s
 import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
-from scipy.optimize import approx_fprime
+from scipy.optimize import approx_fprime, NonlinearConstraint
 from jax import grad
 
 def f(x):
@@ -48,7 +48,7 @@ for i in range(0,len(A0)):
 for i in range(0,len(A0)):
     cons.append({'type':'ineq','fun':g2,'args':(i,)})
 
-def fd(A0):
+def fd1(A0):
     m0 = mass(A0)
     s0 = stress(A0)
     h = 1E-6
@@ -64,9 +64,29 @@ def fd(A0):
         A0[j] = A0[j] - delta_x
     Jmass = Jmass.ravel()
     Jstress = Jstress.ravel()
-    return Jmass, Jstress
+    print("mass jac: ",np.shape(Jmass))
+    return Jmass
+def fd2(A0):
+    m0 = mass(A0)
+    s0 = stress(A0)
+    h = 1E-6
+    Jmass = np.zeros([1,len(A0)])
+    Jstress =  np.zeros([len(A0),len(stress(A0))])
+    for j in range(0,len(A0)):
+        delta_x = h * (1 + abs(A0[j]))
+        A0[j] = A0[j] + delta_x
+        mass_plus = mass(A0)
+        stress_plus = stress(A0)
+        Jmass[0][j] = (mass_plus - m0) / delta_x
+        Jstress[:,j] = (stress_plus - s0) / delta_x
+        A0[j] = A0[j] - delta_x
+    Jmass = Jmass.ravel()
+    Jstress = Jstress.ravel()
+    Jstress = np.reshape(Jstress,(10,10))
+    print("stress jac: ",np.shape(Jstress))
+    return Jstress
 
-def cs(A0):
+def cs1(A0):
     iA0 = A0.copy()
     iA0 = iA0.astype('complex')
     h = 1E-200
@@ -74,18 +94,32 @@ def cs(A0):
     Jstress =  np.zeros([len(iA0),len(stress(iA0))])
     for j in range(0,len(iA0)):
         iA0[j] = complex(iA0[j],0) + complex(0,h)
-        print(A0[j])
         mass_plus = mass(iA0)
         stress_plus = stress(iA0)
         Jmass[0][j] = np.imag(mass_plus) / h
         Jstress[:,j] = np.imag(stress_plus) / h
         iA0[j] = complex(iA0[j],0) - complex(0,h)
-    return Jmass, Jstress
-
-def ad(A0):
-    Jmass = grad(mass,A0)
-    Jstress = grad(stress,A0)
     return Jmass
+def cs2(A0):
+    iA0 = A0.copy()
+    iA0 = iA0.astype('complex')
+    h = 1E-200
+    Jmass = np.zeros([1,len(iA0)])
+    Jstress =  np.zeros([len(iA0),len(stress(iA0))])
+    for j in range(0,len(iA0)):
+        iA0[j] = complex(iA0[j],0) + complex(0,h)
+        mass_plus = mass(iA0)
+        stress_plus = stress(iA0)
+        Jmass[0][j] = np.imag(mass_plus) / h
+        Jstress[:,j] = np.imag(stress_plus) / h
+        iA0[j] = complex(iA0[j],0) - complex(0,h)
+        Jstress = np.reshape(Jstress,(10,10))
+    return Jstress
+
+# def ad(A0):
+#     Jmass = grad(mass,A0)
+#     Jstress = grad(stress,A0)
+#     return Jmass
 
 
 
@@ -95,18 +129,45 @@ fe = []
 mas = []
 jac = 0
 cjac = 0
+masserror = []
+stresserror = []
 def callb(A0):
     global Nfeval
+    global masserror
+    global stresserror
+    global Jmass
+    global Jall
+    global Jstress
     fe.append(Nfeval)
     mas.append(mass(A0))
-    cjac = (ad(A0))
-    jac = (approx_fprime(A0, mass, 1E-8))
+    Jmass = (fd1(A0))
+    Jstress = (fd2(A0))
+    Jall = np.reshape(np.append(Jmass,Jstress),(11,10))
+    jac1 = (approx_fprime(A0, mass, 1E-8))
+    jac2 = (approx_fprime(A0, stress, 1E-8))
+    masserror = np.append(masserror,np.max(abs((Jmass - jac1)/jac1)))
+    stresserror = np.append(stresserror,np.max(abs((Jstress - jac2)/jac2)))
     print("function evaluation: ",Nfeval)
-    print("calculated gradient: ",cjac)
-    print("actual gradient: ",jac)
+    # print("calculated gradient: ",Jstress)
+    # print("actual gradient: ",jac2)
     Nfeval += 1
+    return Jmass
 
+#create constraints dict
+cons2 = []
+# for i in range(0,len(A0)):
+#     cons2 = np.append(cons2,NonlinearConstraint(lambda x: g2(x,i),lb=0,ub=np.inf,jac=fd1))
+for i in range(0,len(A0)):
+    cons2 = np.append(cons2,NonlinearConstraint(lambda x: g1(x,i),lb=0,ub=np.inf,jac=fd2,keep_feasible=True))
+    cons2 = np.array([cons2])
+
+print("yeee: ",np.shape(cons2))
+# cons2 = NonlinearConstraint(g2,0,np.inf,jac=Jall)
 
 #vanilla optimization
-ans = minimize(mass,A0,constraints = cons,callback=callb,options={'maxiter':1})
-# print(ans)
+ans = minimize(mass,A0,constraints = cons2.all(),callback=callb,options={'maxiter':100})
+print(ans)
+
+plt.figure()
+plt.boxplot(stresserror)
+plt.show()

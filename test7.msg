@@ -1,6 +1,6 @@
 1
 
-   Abaqus 2022.HF4                                  Date 15-Feb-2023   Time 18:10:38
+   Abaqus 2022.HF4                                  Date 21-Feb-2023   Time 16:26:58
    For use by BRIGHAM YOUNG UNIVERSITY under license from Dassault Systemes or its subsidiary.
 
                                                                                  
@@ -48,9 +48,9 @@
 
      CHECK POINT  END OF SOLVER       
 
-       ELAPSED USER TIME (SEC)      =  0.10000    
+       ELAPSED USER TIME (SEC)      =   0.0000    
        ELAPSED SYSTEM TIME (SEC)    =   0.0000    
-       ELAPSED TOTAL CPU TIME (SEC) =  0.10000    
+       ELAPSED TOTAL CPU TIME (SEC) =   0.0000    
        ELAPSED WALLCLOCK TIME (SEC) =            0
  
      ITERATION 1
@@ -1509,8 +1509,8 @@
 
 
      JOB TIME SUMMARY
-       USER TIME (SEC)      =      3.4    
+       USER TIME (SEC)      =      2.7    
        SYSTEM TIME (SEC)    =     0.30    
-       TOTAL CPU TIME (SEC) =      3.7    
-       WALLCLOCK TIME (SEC) =            4
+       TOTAL CPU TIME (SEC) =      3.0    
+       WALLCLOCK TIME (SEC) =            3
        MEMORY PEAK (GB)     =            0

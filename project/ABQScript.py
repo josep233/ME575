@@ -45,6 +45,7 @@ def run():
         ans = dat[-6:]
         buckling.write(ans)
         buckling.close()
+        odb.close()
     return ans
 ans = run()
 """

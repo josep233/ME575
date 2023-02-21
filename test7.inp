@@ -983,7 +983,7 @@ _T1_Stalk_7-pith-1_SN, _T1_Stalk_7-pith-1_M
 ** 
 *Material, name=pith
 *Elastic, type=ENGINEERING CONSTANTS
-26.,  26., 110.,  0.3, 0.05, 0.05,  10.,  11.
+26.,  26.,110.000000014901,  0.3, 0.05, 0.05,  10.,  11.
   11.,
 *Material, name=rind
 *Elastic, type=ENGINEERING CONSTANTS

@@ -136,11 +136,34 @@ def con32(init):
        rindE3 = init[2]
        return rindG13_low_constant*rindE3 - rindG23
 
+def con33(init):
+       pithNu12 = init[3]
+       pithNu13 = init[4]
+       pithNu23 = init[5]
+       pithE3 = init[2]
+       pithE1 = init[0]
+       pithE2 = init[1]
+       pithNu31 = pithNu13 * (pithE3 / pithE1)
+       pithNu32 = pithNu23 * (pithE3 / pithE2)
+       pithNu21 = pithNu12 * (pithE2 / pithE1)
+       return 1 - pithNu12*pithNu21 - pithNu23*pithNu32 - pithNu31*pithNu13 - 2*pithNu21*pithNu32*pithNu13
+
 def con34(init):
-       
+       rindNu12 = init[12]
+       rindNu13 = init[13]
+       rindNu23 = init[14]
+       rindE3 = init[11]
+       rindE1 = init[9]
+       rindE2 = init[10]
+       rindNu31 = rindNu13 * (rindE3 / rindE1)
+       rindNu32 = rindNu23 * (rindE3 / rindE2)
+       rindNu21 = rindNu12 * (rindE2 / rindE1)
+       return 1 - rindNu12*rindNu21 - rindNu23*rindNu32 - rindNu31*rindNu13 - 2*rindNu21*rindNu32*rindNu13
 
+def con35(out):
+       return 1 - out
 
-def constraints(init):
+def constraints(init,out):
     cons = [{'type':'ineq','fun':con1},
             {'type':'ineq','fun':con2},
             {'type':'ineq','fun':con3},
@@ -173,6 +196,9 @@ def constraints(init):
             {'type':'ineq','fun':con30},
             {'type':'ineq','fun':con31},
             {'type':'ineq','fun':con32},
+            {'type':'ineq','fun':con33},
+            {'type':'ineq','fun':con34},
+            {'type':'ineq','fun':con35},
             ]
     return cons
 

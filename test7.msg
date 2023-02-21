@@ -1,6 +1,6 @@
 1
 
-   Abaqus 2022.HF4                                  Date 21-Feb-2023   Time 16:26:58
+   Abaqus 2022.HF4                                  Date 21-Feb-2023   Time 16:41:09
    For use by BRIGHAM YOUNG UNIVERSITY under license from Dassault Systemes or its subsidiary.
 
                                                                                  
@@ -1509,8 +1509,8 @@
 
 
      JOB TIME SUMMARY
-       USER TIME (SEC)      =      2.7    
-       SYSTEM TIME (SEC)    =     0.30    
-       TOTAL CPU TIME (SEC) =      3.0    
+       USER TIME (SEC)      =      2.6    
+       SYSTEM TIME (SEC)    =     0.20    
+       TOTAL CPU TIME (SEC) =      2.8    
        WALLCLOCK TIME (SEC) =            3
        MEMORY PEAK (GB)     =            0

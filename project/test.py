@@ -30,7 +30,9 @@ rindG23 = rindG13
 Nfeval = 1
 def callb():
     global Nfeval
+    print("hello?")
     print(Nfeval)
+    print(ObjectiveFunction(init0))
     Nfeval += 1
 
 def ObjectiveFunction(init):
@@ -59,10 +61,13 @@ def ObjectiveFunction(init):
     subprocess.run("abaqus cae noGUI=C:\\Users\\Joseph\\Desktop\\Temp\\test.py", shell=True)
     file = open('C:\\Users\\Joseph\\Desktop\\Temp\\test.txt',"r")
     ans = file.readline()
+    ans = float(ans)
+    print("function evaluation: ",Nfeval)
+    print("pithE1: ",init[0],"pithE2: ",init[1],"pithE3: ",init[2],"pithNu12: ",init[3],"pithNu13: ",init[4],"pithNu23: ",init[5],"pithG12: ",init[6],"pithG13: ",init[7],"pithG23: ",init[8],"rindE1: ",init[9],"rindE2: ",init[10],"rindE3: ",init[11],"rindNu12: ",init[12],"rindNu13: ",init[13],"rindNu23: ",init[14],"rindG12: ",init[15],"rindG13: ",init[16],"rindG23: ",init[17])
     return ans
 
 init0 = np.array([pithE1,pithE2,pithE3,pithNu12,pithNu13,pithNu23,pithG12,pithG13,pithG23,rindE1,rindE2,rindE3,rindNu12,rindNu13,rindNu23,rindG12,rindG13,rindG23])
-
-cons = c.constraints(init0)
-res = minimize(fun=ObjectiveFunction,x0=init0,constraints=c.constraints(init0),callback=callb,options={'maxiter':10})
+out = ObjectiveFunction
+cons = c.constraints(init0,out)
+res = minimize(fun=ObjectiveFunction,x0=init0,constraints=c.constraints(init0,out),callback=callb)
 

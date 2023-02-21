@@ -29,6 +29,7 @@ def ObjectiveFunction(init):
     a.script(stalk,pithprops,rindprops)
     subprocess.run("abaqus cae noGUI=C:\\Users\\Joseph\\Desktop\\Temp\\test.py", shell=True)
     file = open('C:\\Users\\Joseph\\Desktop\\Temp\\test.txt',"r")
-    ans = file.readline()
+    ans = np.double(file.readline())
+    print(ans)
     return ans
 

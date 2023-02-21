@@ -26,40 +26,40 @@ pithE3_high = 0.18 * 1000
 # rindNu32 = rindNu23 * (rindE3 / rindE2)
 # rindNu21 = rindNu12 * (rindE2 / rindE1)
 
-def con1(init,pithE1_avg,pithE1_mu):
+def con1(init):
        pithE1 = init[0]
        return pithE1 - (pithE1_avg + 2*pithE1_mu)
-def con2(init,pithE1_avg,pithE1_mu):
+def con2(init):
        pithE1 = init[0]
        return (pithE1_avg - 2*pithE1_mu) - pithE1
-def con3(init,pithE1_avg,pithE1_mu):
+def con3(init):
        pithE2 = init[1]
        return pithE2 - (pithE1_avg + 2*pithE1_mu)
-def con4(init,pithE1_avg,pithE1_mu):
+def con4(init):
        pithE2 = init[1]
        return (pithE1_avg - 2*pithE1_mu) - pithE2
-def con5(init,pithE3_high):
+def con5(init):
        pithE3 = init[2]
        return pithE3 - pithE3_high
-def con6(init,pithE3_low):
+def con6(init):
        pithE3 = init[2]
        return pithE3_low - pithE3
-def con7(init,pithNu12_high):
+def con7(init):
        pithNu12 = init[3]
        return pithNu12 - pithNu12_high
-def con8(init,pithNu12_low):
+def con8(init):
        pithNu12 = init[3]
        return pithNu12_low - pithNu12
-def con9(init,pithNu13_high):
+def con9(init):
        pithNu13 = init[4]
        return pithNu13 - pithNu13_high
-def con10(init,pithNu13_low):
+def con10(init):
        pithNu13 = init[4]
        return pithNu13_low - pithNu13
-def con11(init,pithNu13_high):
+def con11(init):
        pithNu23 = init[5]
        return pithNu23 - pithNu13_high
-def con12(init,pithNu13_low):
+def con12(init):
        pithNu23 = init[5]
        return pithNu13_low - pithNu23
 def con13(init):
@@ -67,18 +67,77 @@ def con13(init):
        pithE1 = init[0]
        pithNu23 = init[3]
        return pithG12 - (pithE1/(2*(1+pithNu23)))
-def con14(init,pithG13_high_constant):
+def con14(init):
        pithG13 = init[6]
-       return init[4] - pithG13_high_constant*init[2]
-def con15(init,pithG13_low_constant):
-       return pithG13_low_constant*init[2] - init[9]
-def con16(init,pithG13_high_constant):
-       return init[10] - pithG13_high_constant*init[2]
-def con17(init,pithG13_low_constant):
-       return pithG13_low_constant*init[2] - init[10]
-def con18(init,pithNu13_low):
-       return pithNu13_low - init[5]
+       pithE3 = init[2]
+       return pithG13 - pithG13_high_constant*pithE3
+def con15(init):
+       pithG13 = init[6]
+       pithE3 = init[2]
+       return pithG13_low_constant*pithE3 - pithG13
+def con16(init):
+       pithG23 = init[7]
+       pithE3 = init[2]
+       return pithG23 - pithG13_high_constant*pithE3
+def con17(init):
+       pithG23 = init[7]
+       pithE3 = init[2]
+       return pithG13_low_constant*pithE3 - pithG23
 
+def con18(init):
+       rindE1 = init[0]
+       return rindE1 - (rindE1_avg + 2*rindE1_mu)
+def con19(init):
+       rindE1 = init[0]
+       return (rindE1_avg - 2*rindE1_mu) - rindE1
+def con20(init):
+       rindE2 = init[1]
+       return rindE2 - (rindE1_avg + 2*rindE1_mu)
+def con21(init):
+       rindE2 = init[1]
+       return (rindE1_avg - 2*rindE1_mu) - rindE2
+def con22(init):
+       rindNu12 = init[3]
+       return rindNu12 - rindNu12_high
+def con23(init):
+       rindNu12 = init[3]
+       return rindNu12_low - rindNu12
+def con24(init):
+       rindNu13 = init[4]
+       return rindNu13 - rindNu13_high
+def con25(init):
+       rindNu13 = init[4]
+       return rindNu13_low - rindNu13
+def con26(init):
+       rindNu23 = init[5]
+       return rindNu23 - rindNu13_high
+def con27(init):
+       rindNu23 = init[5]
+       return rindNu13_low - rindNu23
+def con28(init):
+       rindG12 = init[6]
+       rindE1 = init[0]
+       rindNu23 = init[3]
+       return rindG12 - (rindE1/(2*(1+rindNu23)))
+def con29(init):
+       rindG13 = init[6]
+       rindE3 = init[2]
+       return rindG13 - rindG13_high_constant*rindE3
+def con30(init):
+       rindG13 = init[6]
+       rindE3 = init[2]
+       return rindG13_low_constant*rindE3 - rindG13
+def con31(init):
+       rindG23 = init[7]
+       rindE3 = init[2]
+       return rindG23 - rindG13_high_constant*rindE3
+def con32(init):
+       rindG23 = init[7]
+       rindE3 = init[2]
+       return rindG13_low_constant*rindE3 - rindG23
+
+def con34(init):
+       
 
 
 def constraints(init):
@@ -99,23 +158,21 @@ def constraints(init):
             {'type':'ineq','fun':con15},
             {'type':'ineq','fun':con16},
             {'type':'ineq','fun':con17},
-            {'type':'ineq','fun':1-pithNu12*pithNu21-pithNu23*pithNu32-pithNu13*pithNu31-2*pithNu21*pithNu32*pithNu13},
-            {'type':'ineq','fun':rindE1 - (rindE1_avg + 2*rindE1_mu)},
-            {'type':'ineq','fun':(rindE1_avg - 2*rindE1_mu) - rindE1},
-            {'type':'ineq','fun':rindE2 - (rindE1_avg + 2*rindE1_mu)},
-            {'type':'ineq','fun':(rindE1_avg - 2*rindE1_mu) - rindE2},
-            {'type':'ineq','fun':rindNu12 - rindNu12_high},
-            {'type':'ineq','fun':rindNu12_low - rindNu12},
-            {'type':'ineq','fun':rindNu13 - rindNu13_high},
-            {'type':'ineq','fun':rindNu13_low - rindNu13},
-            {'type':'ineq','fun':rindNu23 - rindNu13_high},
-            {'type':'ineq','fun':rindNu13_low - rindNu23},
-            {'type':'eq','fun':rindG12 - (rindE1/(2*(1+rindNu12)))},
-            {'type':'ineq','fun':rindG13 - rindG13_high_constant*rindE3},
-            {'type':'ineq','fun':rindG13_low_constant*rindE3 - rindG13},
-            {'type':'ineq','fun':rindG23 - rindG13_high_constant*rindE3},
-            {'type':'ineq','fun':rindG13_low_constant*rindE3 - rindG23},
-            {'type':'ineq','fun':1-rindNu12*rindNu21-rindNu23*rindNu32-rindNu13*rindNu31-2*rindNu21*rindNu32*rindNu13},
+            {'type':'ineq','fun':con18},
+            {'type':'ineq','fun':con19},
+            {'type':'ineq','fun':con20},
+            {'type':'ineq','fun':con21},
+            {'type':'ineq','fun':con22},
+            {'type':'ineq','fun':con23},
+            {'type':'ineq','fun':con24},
+            {'type':'ineq','fun':con25},
+            {'type':'ineq','fun':con26},
+            {'type':'ineq','fun':con27},
+            {'type':'ineq','fun':con28},
+            {'type':'ineq','fun':con29},
+            {'type':'ineq','fun':con30},
+            {'type':'ineq','fun':con31},
+            {'type':'ineq','fun':con32},
             ]
     return cons
 

@@ -1,6 +1,7 @@
 import fea as s
 import numpy as np
 from scipy.optimize import minimize
+import scipy
 import matplotlib.pyplot as plt
 from scipy.optimize import approx_fprime, NonlinearConstraint
 from jax import grad
@@ -86,24 +87,39 @@ def cs(A0,z):
 Nfeval = 1
 fe = []
 mas = []
+masserror = []
+stresserror = []
 def callb(A0):
     global Nfeval
-    actualmass = (approx_fprime(A0, mass, 1E-8))
-    actualstress = (approx_fprime(A0, stress, 1E-8))
+    global masserror
+    global stresserror
+    # actualmass = (approx_fprime(A0, mass, 1E-8))
+    # actualstress = (approx_fprime(A0, stress, 1E-8))
     calcmass = fd(A0,1)[2]
     calcstress = fd(A0,1)[3]
+    # masserror = np.append(masserror,np.max(abs((calcmass - actualmass)/actualmass)))
+    # stresserror = np.append(stresserror,np.max(abs((calcstress - actualstress)/actualstress)))
     print("function evaluation: ",Nfeval)
     Nfeval += 1
 
 #create constraints dict
 cons2 = []
 for i in range(0,len(A0)):
-    cons2 = np.append(cons2,NonlinearConstraint(lambda x: g1(x,i),lb=0,ub=np.inf,jac=lambda x: cs(x,i)[0]))
+    cons2 = np.append(cons2,NonlinearConstraint(lambda x: g1(x,i),lb=0,ub=np.inf,jac=lambda x: fd(x,i)[0]))
 for i in range(0,len(A0)):
-    cons2 = np.append(cons2,NonlinearConstraint(lambda x: g2(x,i),lb=0,ub=np.inf,jac=lambda x: cs(x,i)[1]))
+    cons2 = np.append(cons2,NonlinearConstraint(lambda x: g2(x,i),lb=0,ub=np.inf,jac=lambda x: fd(x,i)[1]))
     cons2 = np.array([cons2])
 
 #vanilla optimization
 # ans = minimize(mass,A0,constraints = cons,callback=callb,options={'maxiter':100})
+
+# opts = scipy.optimize.show_options(solver='minimize')
+# print(opts)
+
 ans = minimize(mass,A0,constraints = cons2.any(),callback=callb,options={'maxiter':100})
 print(ans)
+
+
+plt.figure()
+plt.boxplot(masserror)
+plt.show()

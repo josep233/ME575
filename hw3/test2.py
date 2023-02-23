@@ -40,7 +40,7 @@ def g2(x,i):
     return con2
 
 #initial guess
-A0 = np.ones([10,1]) * 0.1
+A0 = np.ones([10,1]) * 10
 
 cons = []
 for i in range(0,len(A0)):
@@ -66,19 +66,17 @@ def fd(A0,z):
     Jstresscut = Jstress[z,:].ravel()
     return Jmasscut,Jstresscut,Jmass,Jstress
 
-def df(A0):
+def dfun(A0,fun):
     h = 1E-6
-    Jf = np.zeros([1,len(A0)])
-    f0 = f(A0)
+    fun0 = fun(A0)
+    Jfun = np.zeros([1,len(A0)])
     for j in range(0,len(A0)):
         delta_x = h * (1 + abs(A0[j]))
         A0[j] = A0[j] + delta_x
-        fplus = f(A0)
-        Jf[0][j] = (fplus - f0) / delta_x
+        funplus = fun(A0)
+        Jfun[:,j] = (funplus - fun0) / delta_x
         A0[j] = A0[j] - delta_x
-    return Jf
-
-def fg1(A0)
+    return Jfun
 
 def cs(A0,z):
     iA0 = A0.copy()
@@ -97,6 +95,9 @@ def cs(A0,z):
     Jstresscut = Jstress[z,:].ravel()
     return Jmasscut,Jstresscut,Jmass,Jstress
 
+def obj(A0):
+    return mass(A0),dfun(A0,mass).ravel()
+
 #calllback function creation for tracking convergence
 Nfeval = 1
 fe = []
@@ -108,32 +109,33 @@ def callb(A0):
     global masserror
     global stresserror
     actualmass = (approx_fprime(A0, mass, 1E-8))
-    actualstress = (approx_fprime(A0, stress, 1E-8))
-    calcmass = fd(A0,1)[2]
-    calcstress = fd(A0,1)[3]
+    actualstress = (approx_fprime(A0, stress, 1E-8))[0]
+    calcmass = obj(A0)[1]
+    calcstress = dfun(A0,lambda x: g2(x,0))
     masserror = np.append(masserror,np.max(abs((calcmass - actualmass)/actualmass)))
     stresserror = np.append(stresserror,np.max(abs((calcstress - actualstress)/actualstress)))
+    print("actual jac: ",actualmass)
+    print("calculated jac: ",calcmass)
     print("function evaluation: ",Nfeval)
     Nfeval += 1
+
 
 #create constraints dict
 cons2 = []
 for i in range(0,len(A0)):
-    cons2 = np.append(cons2,NonlinearConstraint(lambda x: g1(x,i),lb=0,ub=np.inf,jac=lambda x: fd(x,i)[0]))
+    print((dfun(A0,lambda x: g1(x,i))))
+    print(approx_fprime(A0[i], lambda x: g1(x,i), 1E-8))
+    cons2 = np.append(cons2,NonlinearConstraint(lambda x: g1(x,i),lb=0,ub=np.inf,jac=(lambda x: dfun(x,lambda x: g1(x,i)))))
 for i in range(0,len(A0)):
-    cons2 = np.append(cons2,NonlinearConstraint(lambda x: g2(x,i),lb=0,ub=np.inf,jac=lambda x: fd(x,i)[1]))
+    cons2 = np.append(cons2,NonlinearConstraint(lambda x: g2(x,i),lb=0,ub=np.inf,jac=(lambda x: dfun(x,lambda x: g2(x,i)))))
     cons2 = np.array([cons2])
 
-#vanilla optimization
-# ans = minimize(mass,A0,constraints = cons,callback=callb,options={'maxiter':100})
+# print(cons2)
 
-# opts = scipy.optimize.show_options(solver='minimize')
-# print(opts)
-
-ans = minimize(mass,A0,constraints = cons2.any(),callback=callb,method='SLSQP',jac=True)
-print(ans)
+# ans = minimize(obj,A0,constraints = cons2.all(),callback=callb,method='SLSQP',jac=True,options={'maxiter':100})
+# print(ans)
 
 
-plt.figure()
-plt.boxplot(masserror)
-plt.show()
+# plt.figure()
+# plt.boxplot(stresserror)
+# plt.show()

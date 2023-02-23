@@ -38,28 +38,28 @@ def g(x):
     return con.ravel()
 
 #====================FINITE DIFFERENCE===========================================
-# def dg(A0):
-#     h = 1E-6
-#     g0 = g(A0)
-#     Jg = np.zeros([2*len(A0),len(A0)])
-#     for j in range(0,len(A0)):
-#         delta_x = h * (1 + abs(A0[j]))
-#         A0[j] = A0[j] + delta_x
-#         gplus = g(A0)
-#         Jg[:,j] = ((gplus - g0) / delta_x).ravel()
-#         A0[j] = A0[j] - delta_x
-#     return Jg
-# def df(A0):
-#     h = 1E-6
-#     f0 = mass(A0)
-#     Jf = np.zeros([len(A0),1])
-#     for j in range(0,len(A0)):
-#         delta_x = h * (1 + abs(A0[j]))
-#         A0[j] = A0[j] + delta_x
-#         fplus = mass(A0)
-#         Jf[j] = ((fplus - f0) / delta_x)
-#         A0[j] = A0[j] - delta_x
-#     return Jf
+def dg(A0):
+    h = 1E-6
+    g0 = g(A0)
+    Jg = np.zeros([2*len(A0),len(A0)])
+    for j in range(0,len(A0)):
+        delta_x = h * (1 + abs(A0[j]))
+        A0[j] = A0[j] + delta_x
+        gplus = g(A0)
+        Jg[:,j] = ((gplus - g0) / delta_x).ravel()
+        A0[j] = A0[j] - delta_x
+    return Jg
+def df(A0):
+    h = 1E-6
+    f0 = mass(A0)
+    Jf = np.zeros([len(A0),1])
+    for j in range(0,len(A0)):
+        delta_x = h * (1 + abs(A0[j]))
+        A0[j] = A0[j] + delta_x
+        fplus = mass(A0)
+        Jf[j] = ((fplus - f0) / delta_x)
+        A0[j] = A0[j] - delta_x
+    return Jf
 #====================COMPLEX STEP===============================================
 # def dg(A0):
 #     iA0 = A0.copy()
@@ -94,8 +94,16 @@ A0 = np.ones([10,1]) * 10
 
 #calllback function creation for tracking convergence
 Nfeval = 1
+jacerror = []
+conv = []
 def callb(A0):
     global Nfeval
+    global jacerror
+    global conv
+    actualjac = abs(approx_fprime(A0, mass, 1E-8))
+    calcjac = abs(df(A0))
+    jacerror = np.append(jacerror,100 * np.max(abs((calcjac - actualjac)/actualjac)))
+    conv = np.append(conv,100 * abs((mass(A0) - 1497.0)/1497.0))
     print("function evaluation: ",Nfeval)
     Nfeval += 1
 
@@ -105,7 +113,16 @@ ans = minimize(obj,A0,constraints = cons2,callback=callb,method='SLSQP',jac=True
 # ans = minimize(mass,A0,constraints = cons,callback=callb)
 print(ans)
 
+x = np.linspace(0,Nfeval,len(conv))
 
-# plt.figure()
-# plt.boxplot(stresserror)
-# plt.show()
+plt.figure(1)
+plt.boxplot(jacerror)
+plt.ylabel('Maximum Percent Relative Error (%)')
+plt.title('Complex Step Relative Error')
+plt.figure(2)
+plt.plot(x,conv)
+plt.ylabel("Percent Relative Error from M_final (%)")
+plt.xlabel("Number of Function Evaluations")
+plt.title("Convergence Plot - Complex Step")
+plt.show()
+

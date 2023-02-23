@@ -49,6 +49,8 @@ def run():
     return ans
 ans = run()
 """
+    print(pithprops)
+    print(rindprops)
     location = "C:\\Users\\Joseph\Desktop\\Temp\\test.py"
     file = open(location,'w')
     file.write(txt)

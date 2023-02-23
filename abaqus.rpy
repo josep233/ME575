@@ -2,7 +2,7 @@
 #
 # Abaqus/CAE Release 2022.HF4 replay file
 # Internal Version: 2022_07_25-12.30.49 176790
-# Run by Joseph on Tue Feb 21 16:49:49 2023
+# Run by Joseph on Wed Feb 22 23:17:48 2023
 #
 
 # from driverUtils import executeOnCaeGraphicsStartup
@@ -10,8 +10,8 @@
 #: Executing "onCaeGraphicsStartup()" in the site directory ...
 from abaqus import *
 from abaqusConstants import *
-session.Viewport(name='Viewport: 1', origin=(1.55729, 1.55556), width=229.233, 
-    height=154.311)
+session.Viewport(name='Viewport: 1', origin=(1.32292, 1.32407), width=194.733, 
+    height=131.348)
 session.viewports['Viewport: 1'].makeCurrent()
 from driverUtils import executeOnCaeStartup
 executeOnCaeStartup()
@@ -29,5 +29,8 @@ session.viewports['Viewport: 1'].setValues(displayedObject=None)
 #: Number of Element Sets:       10
 #: Number of Node Sets:          23
 #: Number of Steps:              1
-print 'RT script done'
-#: RT script done
+#* IndexError: Sequence index out of range
+#* File "C:/Users/Joseph/Desktop/Temp/test.py", line 47, in <module>
+#*     ans = run()
+#* File "C:/Users/Joseph/Desktop/Temp/test.py", line 40, in run
+#*     mode = odb.steps['BuckleStep'].frames[1].description

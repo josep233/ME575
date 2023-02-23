@@ -45,10 +45,10 @@ def truss(A):
     mass = np.sum(rho*A*L)
 
     # stiffness and stress matrices
-    K = np.zeros((DOF*n, DOF*n),dtype=complex)
-    S = np.zeros((nbar, DOF*n),dtype=complex)
-    # K = np.zeros((DOF*n, DOF*n))
-    # S = np.zeros((nbar, DOF*n))
+    # K = np.zeros((DOF*n, DOF*n),dtype=complex)
+    # S = np.zeros((nbar, DOF*n),dtype=complex)
+    K = np.zeros((DOF*n, DOF*n))
+    S = np.zeros((nbar, DOF*n))
 
     for i in range(nbar):  # loop through each bar
 

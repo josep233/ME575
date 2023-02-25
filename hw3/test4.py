@@ -1,7 +1,9 @@
+
 #import needed libraries
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
-import numpy as np
+import jax.numpy as np
+import numpy as npp
 from math import sin, cos, sqrt, pi
 
 def truss(A):
@@ -45,10 +47,8 @@ def truss(A):
     mass = np.sum(rho*A*L)
 
     # stiffness and stress matrices
-    K = np.zeros((DOF*n, DOF*n),dtype=complex)
-    S = np.zeros((nbar, DOF*n),dtype=complex)
-    # K = np.zeros((DOF*n, DOF*n))
-    # S = np.zeros((nbar, DOF*n))
+    K = np.zeros((DOF*n, DOF*n))
+    S = np.zeros((nbar, DOF*n))
 
     for i in range(nbar):  # loop through each bar
 
@@ -57,15 +57,15 @@ def truss(A):
 
         # insert submatrix into global matrix
         idx = node2idx([start[i], finish[i]], DOF)  # pass in the starting and ending node number for this element
-        K[np.ix_(idx, idx)] += Ksub
-        S[i, idx] = Ssub
+        K = K.at[np.ix_(idx, idx)].add(Ksub)
+        S = S.at[i, idx].set(Ssub)
     # applied loads
     F = np.zeros((n*DOF, 1))
 
     for i in range(n):
         idx = node2idx([i+1], DOF)  # add 1 b.c. made indexing 1-based for convenience
-        F[idx[0]] = Fx[i]
-        F[idx[1]] = Fy[i]
+        F = F.at[idx[0]].set(Fx[i])
+        F = F.at[idx[1]].set(Fy[i])
 
 
     # boundary condition
@@ -143,12 +143,13 @@ def node2idx(node, DOF):
 
     return idx
 
-import numpy as np
+import jax.numpy as np
 from scipy.optimize import minimize
 import scipy
 import matplotlib.pyplot as plt
 from scipy.optimize import NonlinearConstraint
 from scipy.optimize._numdiff import approx_derivative
+import jax
 
 #define starting functions
 def f(x):
@@ -163,70 +164,33 @@ def stress(x):
 
 #define constraint
 def g(x):
-    con = np.zeros([2*len(x),1],dtype='complex')
+    con = np.zeros((2*len(x),1))
     for i in range(0,len(x)):
-        con[i] = x[i] - .1
+        con = con.at[i].set(x[i] - .1)
     for i in range(0,len(x)):
         stressa = 25 * 10 **3
         stressb = 75 * 10 **3
         if i != 8:
             if stress(x)[i] > 0:
-                con[i+len(x)] =  stressa - stress(x)[i]
+                con = con.at[i+len(x)].set(stressa - stress(x)[i])
             else:
-                con[i+len(x)] = stressa + stress(x)[i]
+                con = con.at[i+len(x)].set(stressa + stress(x)[i])
         else:
             if stress(x)[i] >= 0:
-                con[i+len(x)] = stressb - stress(x)[i]
+                con = con.at[i+len(x)].set(stressb - stress(x)[i])
             else:
-                con[i+len(x)] = stressb + stress(x)[i]
-    return con.ravel()
-
-#====================FINITE DIFFERENCE===========================================
+                con = con.at[i+len(x)].set(stressb + stress(x)[i])
+    return con
+#======================ALGORITHMIC DIFFERENTIATION================================
 def dg(A0):
-    h = 1E-6
-    g0 = g(A0)
-    Jg = np.zeros([2*len(A0),len(A0)])
-    for j in range(0,len(A0)):
-        delta_x = h * (1 + abs(A0[j]))
-        A0[j] = A0[j] + delta_x
-        gplus = g(A0)
-        Jg[:,j] = ((gplus - g0) / delta_x).ravel()
-        A0[j] = A0[j] - delta_x
+    Jg = jax.jacfwd(g)
+    Jg = Jg(A0)
+    Jg = np.reshape(Jg,(20,10))
     return Jg
 def df(A0):
-    h = 1E-6
-    f0 = mass(A0)
-    Jf = np.zeros([len(A0),1])
-    for j in range(0,len(A0)):
-        delta_x = h * (1 + abs(A0[j]))
-        A0[j] = A0[j] + delta_x
-        fplus = mass(A0)
-        Jf[j] = ((fplus - f0) / delta_x)
-        A0[j] = A0[j] - delta_x
+    Jf = jax.jacfwd(mass)
+    Jf = Jf(A0)
     return Jf
-#====================COMPLEX STEP===============================================
-# def dg(A0):
-#     iA0 = A0.copy()
-#     iA0 = iA0.astype('complex')
-#     h = 1E-200
-#     Jg = np.zeros([2*len(A0),len(A0)],dtype='complex')
-#     for j in range(0,len(iA0)):
-#         iA0[j] = complex(iA0[j],0) + complex(0,h)
-#         gplus = g(iA0)
-#         Jg[:,j] = np.imag(gplus) / h
-#         iA0[j] = complex(iA0[j],0) - complex(0,h)
-#     return Jg
-# def df(A0):
-#     iA0 = A0.copy()
-#     iA0 = iA0.astype('complex')
-#     h = 1E-200
-#     Jf = np.zeros([len(iA0),1])
-#     for j in range(0,len(iA0)):
-#         iA0[j] = complex(iA0[j],0) + complex(0,h)
-#         fplus = mass(iA0)
-#         Jf[j] = np.imag(fplus) / h
-#         iA0[j] = complex(iA0[j],0) - complex(0,h)
-#     return Jf
 #=================================================================================
 
 def obj(A0):
@@ -234,21 +198,23 @@ def obj(A0):
 cons2 = NonlinearConstraint(g,lb=0,ub=np.inf,jac=dg)
 
 #initial guess
-A0 = np.ones([10,1]) * 10
+A0 = np.ones((10,1)) * 10
 
 #calllback function creation for tracking convergence
 Nfeval = 1
-jacerror = []
-conv = []
+jacerror = np.array((0))
+conv = np.array((0))
 def callb(A0):
     global Nfeval
     global jacerror
     global conv
-    actualjac = abs(approx_derivative(mass,A0))
-    calcjac = abs(df(A0))
+    actualjac = approx_derivative(mass,A0)
+    calcjac = df(A0)
     jacerror = np.append(jacerror,100 * np.max(abs((calcjac - actualjac)/actualjac)))
     conv = np.append(conv,100 * abs((mass(A0) - 1497.0)/1497.0))
     print("actual jac: ",actualjac)
+    print("calculated jac: ",calcjac)
+    print("function value: ",mass(A0))
     print("function evaluation: ",Nfeval)
     Nfeval += 1
 
@@ -263,11 +229,11 @@ x = np.linspace(0,Nfeval,len(conv))
 plt.figure(1)
 plt.boxplot(jacerror)
 plt.ylabel('Maximum Percent Relative Error (%)')
-plt.title('Forward Finite Difference Relative Error')
+plt.title('AD Relative Error')
 plt.figure(2)
 plt.plot(x,conv)
 plt.ylabel("Percent Relative Error from M_final (%)")
 plt.xlabel("Number of Function Evaluations")
-plt.title("Convergence Plot - Forward Finite Difference")
+plt.title("Convergence Plot - AD")
 plt.show()
 

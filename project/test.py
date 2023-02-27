@@ -135,8 +135,8 @@ def con12(init):
 def con13(init):
        pithG12 = init[6]
        pithE1 = init[0]
-       pithNu23 = init[5]
-       return pithG12 - (pithE1/(2*(1+pithNu23)))
+       pithNu12 = init[3]
+       return pithG12 - (pithE1/(2*(1+pithNu12)))
 def con14(init):
        pithG13 = init[7]
        pithE3 = init[2]
@@ -187,8 +187,8 @@ def con27(init):
 def con28(init):
        rindG12 = init[15]
        rindE1 = init[9]
-       rindNu23 = init[14]
-       return rindG12 - (rindE1/(2*(1+rindNu23)))
+       rindNu12 = init[12]
+       return rindG12 - (rindE1/(2*(1+rindNu12)))
 def con29(init):
        rindG13 = init[16]
        rindE3 = init[11]
@@ -236,7 +236,7 @@ def con35(out):
 
 def con36(init,stalk):
        rindE3 = init[11]
-       return rindE3 - r.rinde3(stalk)
+       return rindE3 - r.rinde3(stalk) * 1000
 
 def constraints(init,out,stalk):
     cons = [{'type':'ineq','fun':con1},

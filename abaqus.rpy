@@ -21,3 +21,13 @@ execfile('C:/Users/Joseph/Desktop/Temp/test.py', __main__.__dict__)
 session.viewports['Viewport: 1'].setValues(displayedObject=None)
 #: The model database "C:\Users\Joseph\Desktop\Personal\ME575\project\Proj\ProjCAE\Stalk_7-quarter_buckling-Folder-1.cae" has been opened.
 session.viewports['Viewport: 1'].setValues(displayedObject=None)
+#: Model: C:/Users/Joseph/Desktop/Personal/ME575/test7_simple.odb
+#: Number of Assemblies:         1
+#: Number of Assembly instances: 0
+#: Number of Part instances:     2
+#: Number of Meshes:             3
+#: Number of Element Sets:       10
+#: Number of Node Sets:          23
+#: Number of Steps:              1
+print 'RT script done'
+#: RT script done

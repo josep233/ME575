@@ -12,3 +12,11 @@ End Analysis Input File Processor
 Begin Abaqus/Standard Analysis
 2/28/2023 4:46:24 PM
 Run standard.exe
+2/28/2023 4:46:29 PM
+End Abaqus/Standard Analysis
+Begin SIM Wrap-up
+2/28/2023 4:46:31 PM
+Run SMASimUtility.exe
+2/28/2023 4:46:31 PM
+End SIM Wrap-up
+Abaqus JOB test7_simple COMPLETED

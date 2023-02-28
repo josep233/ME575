@@ -30,9 +30,6 @@ def ObjectiveFunction(init):
     file = open('C:\\Users\\Joseph\\Desktop\\Temp\\test.txt',"r")
     ans = np.double(file.readline())
     ans = float(ans)
-    print("function evaluation: ",Nfeval)
-    # print("pithE1: ",init[0],"pithE2: ",init[1],"pithE3: ",init[2],"pithNu12: ",init[3],"pithNu13: ",init[4],"pithNu23: ",init[5],"pithG12: ",init[6],"pithG13: ",init[7],"pithG23: ",init[8],"rindE1: ",init[9],"rindE2: ",init[10],"rindE3: ",init[11],"rindNu12: ",init[12],"rindNu13: ",init[13],"rindNu23: ",init[14],"rindG12: ",init[15],"rindG13: ",init[16],"rindG23: ",init[17])
     print("eigenvalue: ",ans)
-    Nfeval += 1
     return ans
 

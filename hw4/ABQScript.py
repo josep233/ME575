@@ -22,7 +22,7 @@ import regionToolset
 def run():
     n = 1
     if n == 1:
-        openMdb("C:\\Users\\Joseph\\Desktop\\Personal\\ME575\\project\\Proj\\ProjCAE\\Stalk_{stalk}-quarter_buckling-Folder-1")
+        openMdb("C:\\Users\\Joseph\\Desktop\\Personal\\ME575\\project\\Proj\\ProjCAE\\Stalk_7-quarter_buckling-Folder-1")
         mdb.models['Model-1'].Material('rind')
         mdb.models['Model-1'].Material('pith')
         buckling = open(r'C:\\Users\\Joseph\Desktop\\Temp\\test.txt','w')

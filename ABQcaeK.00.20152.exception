@@ -1,0 +1,43 @@
+<Description>
+   ABAQUS/ABQcaeK rank 0 received the INTERRUPT signal
+
+</Description>
+
+<Context>
+   CAE
+</Context>
+
+<Callstack>
+  1)  ABQSMABasShared.dll         ExceptCallback1                         
+  2)  ucrtbase.dll                perror                                  
+  3)  KERNELBASE.dll              CtrlRoutine                             
+  4)  KERNEL32.DLL                BaseThreadInitThunk                     
+  5)  ntdll.dll                   RtlUserThreadStart                      
+</Callstack>
+
+<Memory>
+   <Current>            0 GB </Current>
+   <Resident>           0 GB </Resident>
+   <Physical>          63 GB </Physical>
+   <Limit>              0 GB </Limit>
+   <Accessible>        63 GB </Accessible>
+   <Available>         51 GB </Available>
+   <Allocator>            DL </Allocator>
+</Memory>
+
+<Swap>
+       <Size>          73 GB </Size>
+       <Used>          16 GB </Used>
+       <Free>          56 GB </Free>
+</Swap>
+
+<Directories>
+  <current> C:\Users\Joseph\Desktop\Personal\ME575 </current> <free>    656 GB </free>   <used>    297 GB </used> 
+     <temp> C:\Users\Joseph\AppData\Local\Temp </temp>    <free>    656 GB </free>
+</Directories>
+
+<Installation>
+     <Version> 2022.HF4  </Version>
+       <Build> 2022_07_25-12.30.49 176790 </Build>
+</Installation>
+

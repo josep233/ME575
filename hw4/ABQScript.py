@@ -1,4 +1,4 @@
-def script(pithprops,rindprops,const):
+def script(pithprops,rindprops):
     txt = f"""
 mdb = Mdb()
 from part import *
@@ -47,8 +47,8 @@ def run():
     return ans
 ans = run()
 """
-    print(pithprops*10**const)
-    print(rindprops*10**const)
+    print(pithprops)
+    print(rindprops)
     location = "C:\\Users\\Joseph\Desktop\\Temp\\test.py"
     file = open(location,'w')
     file.write(txt)

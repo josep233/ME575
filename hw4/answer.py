@@ -1,6 +1,6 @@
 import ABQScript as a
 import numpy as np
-from scipy.optimize import minimize
+from scipy.optimize import minimize, approx_fprime
 import subprocess
 
 const = 9
@@ -26,13 +26,13 @@ def ObjectiveFunction(init):
     
     pithprops = (pithE1,pithE2,pithE3,pithNu12,pithNu13,pithNu23,pithG12,pithG13,pithG23,)
     rindprops = (rindE1,rindE2,rindE3,rindNu12,rindNu13,rindNu23,init[0]*10**const,init[1]*10**const,init[2]*10**const,)
-    a.script(pithprops,rindprops,const)
+    a.script(pithprops,rindprops)
     subprocess.run("abaqus cae noGUI=C:\\Users\\Joseph\\Desktop\\Temp\\test.py", shell=True)
     file = open('C:\\Users\\Joseph\\Desktop\\Temp\\test.txt',"r")
     ans = np.double(file.readline())
-    ans = float(ans)*10**-const
+    ans = float(ans)*10**-(const-5)
     print("function evaluation: ",Nfeval)
-    print("eigenvalue: ",ans*10**const)
+    print("eigenvalue: ",ans*10**(const-5))
     Nfeval += 1
     return ans
 
@@ -49,7 +49,10 @@ def con5(init):
 def con6(init):
        return (init[2])*10**-const
 def con7(init):
-       return ObjectiveFunction(init) - 15.0*10**(-const)
+       out = ObjectiveFunction(init)
+       actualjac = approx_fprime(ObjectiveFunction,init)
+       print("actual jacobian: ",actualjac)
+       return out - 15.0*10**(-const)
 
 
 cons = [

@@ -2,7 +2,7 @@
 #
 # Abaqus/CAE Release 2022.HF4 replay file
 # Internal Version: 2022_07_25-12.30.49 176790
-# Run by Joseph on Tue Feb 28 16:27:02 2023
+# Run by Joseph on Tue Feb 28 16:45:21 2023
 #
 
 # from driverUtils import executeOnCaeGraphicsStartup
@@ -29,5 +29,8 @@ session.viewports['Viewport: 1'].setValues(displayedObject=None)
 #: Number of Element Sets:       10
 #: Number of Node Sets:          23
 #: Number of Steps:              1
-print 'RT script done'
-#: RT script done
+#* IndexError: Sequence index out of range
+#* File "C:/Users/Joseph/Desktop/Temp/test.py", line 47, in <module>
+#*     ans = run()
+#* File "C:/Users/Joseph/Desktop/Temp/test.py", line 40, in run
+#*     mode = odb.steps['BuckleStep'].frames[1].description

@@ -5,18 +5,18 @@ Abaqus License Manager checked out the following licenses:
 Abaqus/Foundation checked out 3 tokens from Flexnet server linuxlic.et.byu.edu.
 <14 out of 25 licenses remain available>.
 Begin Analysis Input File Processor
-2/27/2023 9:21:43 PM
+2/28/2023 4:28:06 PM
 Run pre.exe
-2/27/2023 9:21:47 PM
+2/28/2023 4:28:09 PM
 End Analysis Input File Processor
 Begin Abaqus/Standard Analysis
-2/27/2023 9:21:47 PM
+2/28/2023 4:28:09 PM
 Run standard.exe
-2/27/2023 9:21:52 PM
+2/28/2023 4:28:14 PM
 End Abaqus/Standard Analysis
 Begin SIM Wrap-up
-2/27/2023 9:21:53 PM
+2/28/2023 4:28:16 PM
 Run SMASimUtility.exe
-2/27/2023 9:21:53 PM
+2/28/2023 4:28:16 PM
 End SIM Wrap-up
 Abaqus JOB test7_simple COMPLETED

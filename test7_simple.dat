@@ -1,6 +1,6 @@
 1
 
-   Abaqus 2022.HF4                                  Date 27-Feb-2023   Time 21:21:46
+   Abaqus 2022.HF4                                  Date 28-Feb-2023   Time 16:28:08
    For use by BRIGHAM YOUNG UNIVERSITY under license from Dassault Systemes or its subsidiary.
 
 
@@ -1349,7 +1349,7 @@
              WarnNodeOverconBoundCoup.
 1
 
-   Abaqus 2022.HF4                                  Date 27-Feb-2023   Time 21:21:46
+   Abaqus 2022.HF4                                  Date 28-Feb-2023   Time 16:28:09
    For use by BRIGHAM YOUNG UNIVERSITY under license from Dassault Systemes or its subsidiary.
 
                                                                                      
@@ -5269,12 +5269,12 @@ LOCAL TO GLOBAL NODE AND ELEMENT MAPS
 
      JOB TIME SUMMARY
        USER TIME (SEC)      =     0.20    
-       SYSTEM TIME (SEC)    =      0.0    
-       TOTAL CPU TIME (SEC) =     0.20    
-       WALLCLOCK TIME (SEC) =            0
+       SYSTEM TIME (SEC)    =     0.10    
+       TOTAL CPU TIME (SEC) =     0.30    
+       WALLCLOCK TIME (SEC) =            1
 1
 
-   Abaqus 2022.HF4                                  Date 27-Feb-2023   Time 21:21:49
+   Abaqus 2022.HF4                                  Date 28-Feb-2023   Time 16:28:12
    For use by BRIGHAM YOUNG UNIVERSITY under license from Dassault Systemes or its subsidiary.
 
                                                                                                STEP    1  INCREMENT    1
@@ -5388,8 +5388,8 @@ LOCAL TO GLOBAL NODE AND ELEMENT MAPS
  MODE NO      EIGENVALUE
 
 
-       1       93.030    
-       2      -93.092    
+       1       20.570    
+       2      -20.630    
 
 
           THE ANALYSIS HAS BEEN COMPLETED
@@ -5402,7 +5402,7 @@ LOCAL TO GLOBAL NODE AND ELEMENT MAPS
 
 
      JOB TIME SUMMARY
-       USER TIME (SEC)      =      1.6    
+       USER TIME (SEC)      =      1.4    
        SYSTEM TIME (SEC)    =     0.20    
-       TOTAL CPU TIME (SEC) =      1.8    
-       WALLCLOCK TIME (SEC) =            2
+       TOTAL CPU TIME (SEC) =      1.6    
+       WALLCLOCK TIME (SEC) =            1

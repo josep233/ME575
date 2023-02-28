@@ -1,0 +1,14 @@
+Analysis initiated from SIMULIA established products
+Abaqus JOB test7_simple
+Abaqus 2022.HF4
+Abaqus License Manager checked out the following licenses:
+Abaqus/Foundation checked out 3 tokens from Flexnet server linuxlic.et.byu.edu.
+<14 out of 25 licenses remain available>.
+Begin Analysis Input File Processor
+2/28/2023 4:46:20 PM
+Run pre.exe
+2/28/2023 4:46:24 PM
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+2/28/2023 4:46:24 PM
+Run standard.exe

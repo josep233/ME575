@@ -2,6 +2,7 @@ import ABQScript as a
 import numpy as np
 from scipy.optimize import minimize, approx_fprime
 import subprocess
+from scipy.optimize._numdiff import approx_derivative
 
 const = 9
 
@@ -30,29 +31,26 @@ def ObjectiveFunction(init):
     subprocess.run("abaqus cae noGUI=C:\\Users\\Joseph\\Desktop\\Temp\\test.py", shell=True)
     file = open('C:\\Users\\Joseph\\Desktop\\Temp\\test.txt',"r")
     ans = np.double(file.readline())
-    ans = float(ans)*10**-(const-5)
+    ans = float(ans)*10**-(const)
     print("function evaluation: ",Nfeval)
-    print("eigenvalue: ",ans*10**(const-5))
+    print("eigenvalue: ",ans*10**(const))
     Nfeval += 1
     return ans
 
 def con1(init):
        return ((350*10**(-const)) - init[0])
 def con2(init):
-       return (init[0])*10**-const
+       return (init[0])*10**(-const)
 def con3(init):
        return ((2790*10**(-const)) - init[1])
 def con4(init):
-       return (init[1])*10**-const
+       return (init[1])*10**(-const)
 def con5(init):
        return ((2800*10**(-const)) - init[2])
 def con6(init):
-       return (init[2])*10**-const
+       return (init[2])*10**(-const)
 def con7(init):
-       out = ObjectiveFunction(init)
-       actualjac = approx_fprime(ObjectiveFunction,init)
-       print("actual jacobian: ",actualjac)
-       return out - 15.0*10**(-const)
+       return ObjectiveFunction(init) - 15.0*10**(-const)
 
 
 cons = [
@@ -65,6 +63,8 @@ cons = [
         {'type':'ineq','fun':con7},
         ]
 
-init = np.array([100,500,500])*10**-const
-res = minimize(ObjectiveFunction,init,constraints=cons)
-print(res)
+init = np.array([20,100,100])*10**-const
+for i in range(0,10):
+       res = minimize(ObjectiveFunction,init,constraints=cons,options={"maxiter":1})
+       init = res.x
+       print("|||||||||||||||||||||jac: ",res.jac)

@@ -1,6 +1,6 @@
 1
 
-   Abaqus 2022.HF4                                  Date 28-Feb-2023   Time 16:46:23
+   Abaqus 2022.HF4                                  Date 28-Feb-2023   Time 20:21:48
    For use by BRIGHAM YOUNG UNIVERSITY under license from Dassault Systemes or its subsidiary.
 
 
@@ -1349,7 +1349,7 @@
              WarnNodeOverconBoundCoup.
 1
 
-   Abaqus 2022.HF4                                  Date 28-Feb-2023   Time 16:46:23
+   Abaqus 2022.HF4                                  Date 28-Feb-2023   Time 20:21:48
    For use by BRIGHAM YOUNG UNIVERSITY under license from Dassault Systemes or its subsidiary.
 
                                                                                      
@@ -5269,12 +5269,12 @@ LOCAL TO GLOBAL NODE AND ELEMENT MAPS
 
      JOB TIME SUMMARY
        USER TIME (SEC)      =     0.20    
-       SYSTEM TIME (SEC)    =     0.10    
-       TOTAL CPU TIME (SEC) =     0.30    
-       WALLCLOCK TIME (SEC) =            1
+       SYSTEM TIME (SEC)    =      0.0    
+       TOTAL CPU TIME (SEC) =     0.20    
+       WALLCLOCK TIME (SEC) =            0
 1
 
-   Abaqus 2022.HF4                                  Date 28-Feb-2023   Time 16:46:26
+   Abaqus 2022.HF4                                  Date 28-Feb-2023   Time 20:21:51
    For use by BRIGHAM YOUNG UNIVERSITY under license from Dassault Systemes or its subsidiary.
 
                                                                                                STEP    1  INCREMENT    1
@@ -5388,8 +5388,8 @@ LOCAL TO GLOBAL NODE AND ELEMENT MAPS
  MODE NO      EIGENVALUE
 
 
-       1       20.449    
-       2      -20.509    
+       1       21.519    
+       2      -21.644    
 
 
           THE ANALYSIS HAS BEEN COMPLETED
@@ -5402,7 +5402,7 @@ LOCAL TO GLOBAL NODE AND ELEMENT MAPS
 
 
      JOB TIME SUMMARY
-       USER TIME (SEC)      =      1.6    
+       USER TIME (SEC)      =      1.3    
        SYSTEM TIME (SEC)    =     0.10    
-       TOTAL CPU TIME (SEC) =      1.7    
+       TOTAL CPU TIME (SEC) =      1.4    
        WALLCLOCK TIME (SEC) =            2
